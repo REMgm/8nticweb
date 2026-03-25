@@ -12,7 +12,7 @@ import Security from './sections/Security';
 import UseCases from './sections/UseCases';
 import About from './sections/About';
 import Contact from './sections/Contact';
-import GatedContent from './components/GatedContent';
+
 import { trackPageView } from './lib/analytics';
 import './App.css';
 
@@ -90,13 +90,9 @@ function App() {
         <Thesis />
         <Manifesto />
         <Capabilities />
-        <GatedContent fallbackMessage="Sign in to explore the full architecture deep-dive">
-          <Architecture />
-        </GatedContent>
+        <Architecture />
         <Integrations />
-        <GatedContent fallbackMessage="Sign in to access the security & governance framework">
-          <Security />
-        </GatedContent>
+        <Security />
         <UseCases />
         <About />
         <Contact />
