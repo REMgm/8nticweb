@@ -1,7 +1,9 @@
 import { useEffect, useRef, useState } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { Send, Mail, MessageSquare } from 'lucide-react';
+import { Send, Mail, MessageSquare, Loader2 } from 'lucide-react';
+import { supabase } from '../lib/supabase';
+import { trackFormSubmit } from '../lib/analytics';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -23,9 +25,6 @@ const nodes: Node[] = [
   { id: 8, x: 50, y: 92, size: 18 },
 ];
 
-// Email storage (in-memory for now, can be connected to backend)
-const storedEmails: Array<{ email: string; name: string; timestamp: string; type: string }> = [];
-
 export default function Contact() {
   const sectionRef = useRef<HTMLElement>(null);
   const panelRef = useRef<HTMLDivElement>(null);
@@ -41,6 +40,8 @@ export default function Contact() {
   });
 
   const [submitted, setSubmitted] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
+  const [submitError, setSubmitError] = useState('');
 
   useEffect(() => {
     const section = sectionRef.current;
@@ -153,31 +154,28 @@ export default function Contact() {
     return () => ctx.revert();
   }, []);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setSubmitting(true);
+    setSubmitError('');
 
-    // Store the contact form submission
-    const submission = {
-      email: formData.email,
-      name: formData.name,
-      timestamp: new Date().toISOString(),
-      type: 'contact',
-      message: formData.message,
-    };
+    try {
+      const { error } = await supabase.from('contacts').insert({
+        name: formData.name,
+        email: formData.email,
+        message: formData.message || null,
+      });
 
-    // Add to stored emails array
-    storedEmails.push({
-      email: formData.email,
-      name: formData.name,
-      timestamp: new Date().toISOString(),
-      type: 'contact',
-    });
+      if (error) throw error;
 
-    // Log to console (in production, this would go to a database)
-    console.log('Contact submission stored:', submission);
-    console.log('All stored emails:', storedEmails);
-
-    setSubmitted(true);
+      trackFormSubmit('contact', { has_message: !!formData.message });
+      setSubmitted(true);
+    } catch (err: unknown) {
+      console.error('Contact form error:', err);
+      setSubmitError('Something went wrong. Please try again or email directly.');
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   const handleChange = (
@@ -306,13 +304,24 @@ export default function Contact() {
                 />
               </div>
 
+              {submitError && (
+                <div className="text-sm text-red-400 bg-red-400/10 px-4 py-2 rounded-lg">
+                  {submitError}
+                </div>
+              )}
+
               <div className="form-field pt-2">
                 <button
                   type="submit"
-                  className="w-full btn-primary flex items-center justify-center gap-2"
+                  disabled={submitting}
+                  className="w-full btn-primary flex items-center justify-center gap-2 disabled:opacity-50"
                 >
-                  <Send className="w-4 h-4" />
-                  Send message
+                  {submitting ? (
+                    <Loader2 className="w-4 h-4 animate-spin" />
+                  ) : (
+                    <Send className="w-4 h-4" />
+                  )}
+                  {submitting ? 'Sending...' : 'Send message'}
                 </button>
               </div>
             </form>
@@ -362,7 +371,3 @@ export default function Contact() {
   );
 }
 
-// Export function to get stored emails (for admin access)
-export function getStoredEmails() {
-  return storedEmails;
-}

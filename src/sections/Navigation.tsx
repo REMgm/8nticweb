@@ -1,7 +1,12 @@
 import { useEffect, useState } from 'react';
+import { LogIn, LogOut, User } from 'lucide-react';
+import { useAuth } from '../contexts/AuthContext';
+import AuthModal from '../components/AuthModal';
 
 export default function Navigation() {
   const [scrolled, setScrolled] = useState(false);
+  const [showAuth, setShowAuth] = useState(false);
+  const { user, signOut } = useAuth();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -50,13 +55,37 @@ export default function Navigation() {
             ))}
           </div>
 
-          {/* CTA Button */}
-          <a
-            href="#contact"
-            className="hidden md:inline-flex btn-primary text-sm"
-          >
-            Get in Touch
-          </a>
+          {/* Auth / CTA Button */}
+          <div className="hidden md:flex items-center gap-3">
+            {user ? (
+              <div className="flex items-center gap-3">
+                <span className="flex items-center gap-2 text-sm text-8ntic-text-secondary">
+                  <User className="w-4 h-4" />
+                  {user.email?.split('@')[0]}
+                </span>
+                <button
+                  onClick={() => signOut()}
+                  className="flex items-center gap-1.5 text-sm text-8ntic-text-secondary hover:text-white transition-colors"
+                >
+                  <LogOut className="w-4 h-4" />
+                </button>
+              </div>
+            ) : (
+              <button
+                onClick={() => setShowAuth(true)}
+                className="flex items-center gap-1.5 text-sm text-8ntic-text-secondary hover:text-white transition-colors"
+              >
+                <LogIn className="w-4 h-4" />
+                Sign in
+              </button>
+            )}
+            <a
+              href="#contact"
+              className="btn-primary text-sm"
+            >
+              Get in Touch
+            </a>
+          </div>
 
           {/* Mobile Menu Button */}
           <button className="md:hidden p-2 text-white">
@@ -76,6 +105,7 @@ export default function Navigation() {
           </button>
         </div>
       </div>
+      <AuthModal isOpen={showAuth} onClose={() => setShowAuth(false)} />
     </nav>
   );
 }
