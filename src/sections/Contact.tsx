@@ -160,6 +160,7 @@ export default function Contact() {
     setSubmitError('');
 
     try {
+      if (!supabase) throw new Error('Backend not available');
       const { error } = await supabase.from('contacts').insert({
         name: formData.name,
         email: formData.email,

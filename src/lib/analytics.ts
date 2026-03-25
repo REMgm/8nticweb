@@ -18,6 +18,7 @@ interface TrackEventParams {
 }
 
 export async function trackEvent({ event_type, event_data, page }: TrackEventParams) {
+  if (!supabase) return;
   try {
     const { data: { user } } = await supabase.auth.getUser();
 

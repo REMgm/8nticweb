@@ -111,6 +111,7 @@ export default function Thesis() {
     setSubmitting(true);
 
     try {
+      if (!supabase) throw new Error('Backend not available');
       await supabase.from('contacts').insert({
         name: '',
         email,
