@@ -1,0 +1,194 @@
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 225 45% 3%;
+    --foreground: 230 60% 97%;
+    --card: 225 35% 7%;
+    --card-foreground: 230 60% 97%;
+    --popover: 225 35% 7%;
+    --popover-foreground: 230 60% 97%;
+    --primary: 227 100% 65%;
+    --primary-foreground: 230 60% 97%;
+    --secondary: 225 25% 12%;
+    --secondary-foreground: 230 60% 97%;
+    --muted: 225 25% 12%;
+    --muted-foreground: 225 15% 70%;
+    --accent: 227 100% 65%;
+    --accent-foreground: 230 60% 97%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 225 15% 18%;
+    --input: 225 15% 18%;
+    --ring: 227 100% 65%;
+    --radius: 0.625rem;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  html {
+    scroll-behavior: smooth;
+  }
+  body {
+    @apply bg-background text-foreground antialiased;
+    font-family: 'Inter', sans-serif;
+    background-color: #05060B;
+    overflow-x: hidden;
+  }
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Space Grotesk', sans-serif;
+  }
+  .font-mono {
+    font-family: 'IBM Plex Mono', monospace;
+  }
+}
+
+@layer components {
+  .glass-panel {
+    background: rgba(11, 14, 26, 0.55);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 34px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4), 
+                inset 0 1px 0 rgba(255, 255, 255, 0.05);
+  }
+
+  .glow-node {
+    background: radial-gradient(circle, rgba(79, 109, 255, 0.9) 0%, rgba(79, 109, 255, 0.4) 40%, transparent 70%);
+    box-shadow: 0 0 20px rgba(79, 109, 255, 0.5),
+                0 0 40px rgba(79, 109, 255, 0.3);
+  }
+
+  .text-gradient {
+    background: linear-gradient(135deg, #F4F6FF 0%, #A7B0C8 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .accent-glow {
+    text-shadow: 0 0 30px rgba(79, 109, 255, 0.5);
+  }
+
+  .orbit-ring {
+    stroke: rgba(79, 109, 255, 0.14);
+    stroke-width: 1;
+    fill: none;
+  }
+
+  .connection-line {
+    stroke: url(#lineGradient);
+    stroke-width: 1.5;
+    fill: none;
+  }
+
+  .btn-primary {
+    @apply px-6 py-3 rounded-xl font-medium transition-all duration-300;
+    background: linear-gradient(135deg, #4F6DFF 0%, #3B5AEE 100%);
+    color: white;
+    box-shadow: 0 4px 20px rgba(79, 109, 255, 0.35);
+  }
+
+  .btn-primary:hover {
+    transform: translateY(-2px) scale(1.02);
+    box-shadow: 0 6px 30px rgba(79, 109, 255, 0.5);
+  }
+
+  .btn-secondary {
+    @apply px-6 py-3 rounded-xl font-medium transition-all duration-300;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: #F4F6FF;
+  }
+
+  .btn-secondary:hover {
+    background: rgba(255, 255, 255, 0.1);
+    transform: translateY(-2px);
+  }
+
+  .grain-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    opacity: 0.06;
+    mix-blend-mode: overlay;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+    z-index: 9999;
+  }
+}
+
+@layer utilities {
+  .animation-float {
+    animation: float 6s ease-in-out infinite;
+  }
+
+  .animation-float-slow {
+    animation: float 10s ease-in-out infinite;
+  }
+
+  .animation-pulse-glow {
+    animation: pulseGlow 4s ease-in-out infinite;
+  }
+
+  .animation-rotate-slow {
+    animation: rotateSlow 60s linear infinite;
+  }
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-16px);
+  }
+}
+
+@keyframes pulseGlow {
+  0%, 100% {
+    opacity: 0.6;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.1);
+  }
+}
+
+@keyframes rotateSlow {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Scrollbar styling */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #05060B;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(79, 109, 255, 0.3);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(79, 109, 255, 0.5);
+}
