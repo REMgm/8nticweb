@@ -1,6 +1,9 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { Lock } from 'lucide-react';
+import { useAuth } from '../contexts/AuthContext';
+import AuthModal from '../components/AuthModal';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -25,6 +28,8 @@ const nodes: Node[] = [
 ];
 
 export default function Architecture() {
+  const { user } = useAuth();
+  const [showAuth, setShowAuth] = useState(false);
   const sectionRef = useRef<HTMLElement>(null);
   const panelRef = useRef<HTMLDivElement>(null);
   const headlineRef = useRef<HTMLHeadingElement>(null);
@@ -386,6 +391,28 @@ export default function Architecture() {
           </div>
         </div>
       </div>
+      {/* Auth gate overlay — renders inside section so ScrollTrigger pin is unaffected */}
+      {!user && (
+        <>
+          <div className="absolute inset-0 z-50 flex items-center justify-center backdrop-blur-sm bg-[#0B0E1A]/60">
+            <div className="glass-panel p-6 text-center max-w-sm mx-4">
+              <div className="w-10 h-10 rounded-full bg-8ntic-accent/20 flex items-center justify-center mx-auto mb-3">
+                <Lock className="w-5 h-5 text-8ntic-accent" />
+              </div>
+              <p className="text-sm text-8ntic-text-secondary mb-4">
+                Sign in to explore the full architecture deep-dive
+              </p>
+              <button
+                onClick={() => setShowAuth(true)}
+                className="btn-primary text-sm"
+              >
+                Unlock content
+              </button>
+            </div>
+          </div>
+          <AuthModal isOpen={showAuth} onClose={() => setShowAuth(false)} defaultMode="signup" />
+        </>
+      )}
     </section>
   );
 }
