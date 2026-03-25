@@ -151,7 +151,7 @@ export default function About() {
                 Amsterdam, Netherlands
               </div>
               <a
-                href="https://linkedin.com"
+                href="https://www.linkedin.com/in/remcovroom/"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="flex items-center gap-2 text-sm text-8ntic-text-secondary hover:text-white transition-colors"
