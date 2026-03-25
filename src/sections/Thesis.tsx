@@ -1,12 +1,11 @@
 import { useEffect, useRef, useState } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { Quote, Mail, Check, Bell } from 'lucide-react';
+import { Quote, Mail, Check, Bell, Loader2 } from 'lucide-react';
+import { supabase } from '../lib/supabase';
+import { trackFormSubmit } from '../lib/analytics';
 
 gsap.registerPlugin(ScrollTrigger);
-
-// Email storage for thesis registration
-const thesisRegistrations: Array<{ email: string; timestamp: string; type: string }> = [];
 
 export default function Thesis() {
   const sectionRef = useRef<HTMLElement>(null);
@@ -17,6 +16,7 @@ export default function Thesis() {
 
   const [email, setEmail] = useState('');
   const [registered, setRegistered] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
 
   useEffect(() => {
     const section = sectionRef.current;
@@ -105,25 +105,24 @@ export default function Thesis() {
     return () => ctx.revert();
   }, []);
 
-  const handleRegister = (e: React.FormEvent) => {
+  const handleRegister = async (e: React.FormEvent) => {
     e.preventDefault();
-
     if (!email) return;
+    setSubmitting(true);
 
-    // Store the registration
-    const registration = {
-      email: email,
-      timestamp: new Date().toISOString(),
-      type: 'thesis_registration',
-    };
-
-    thesisRegistrations.push(registration);
-
-    // Log to console (in production, this would go to a database)
-    console.log('Thesis registration stored:', registration);
-    console.log('All thesis registrations:', thesisRegistrations);
-
-    setRegistered(true);
+    try {
+      await supabase.from('contacts').insert({
+        name: '',
+        email,
+        message: 'Thesis registration',
+      });
+      trackFormSubmit('thesis_registration');
+      setRegistered(true);
+    } catch (err) {
+      console.error('Registration error:', err);
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   const principles = [
@@ -274,9 +273,11 @@ export default function Thesis() {
                 </div>
                 <button
                   type="submit"
-                  className="btn-primary flex items-center justify-center gap-2 whitespace-nowrap"
+                  disabled={submitting}
+                  className="btn-primary flex items-center justify-center gap-2 whitespace-nowrap disabled:opacity-50"
                 >
-                  Register
+                  {submitting ? <Loader2 className="w-4 h-4 animate-spin" /> : null}
+                  {submitting ? 'Registering...' : 'Register'}
                 </button>
               </div>
             </form>
@@ -297,7 +298,3 @@ export default function Thesis() {
   );
 }
 
-// Export function to get thesis registrations (for admin access)
-export function getThesisRegistrations() {
-  return thesisRegistrations;
-}

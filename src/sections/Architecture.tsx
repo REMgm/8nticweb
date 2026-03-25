@@ -266,7 +266,7 @@ export default function Architecture() {
       >
         <div className="relative h-full flex flex-col lg:flex-row">
           {/* Left content */}
-          <div className="flex-1 flex flex-col justify-center p-8 lg:p-12">
+          <div className="flex-1 flex flex-col justify-center p-8 lg:p-12 lg:max-w-[54%]">
             {/* Headline */}
             <h2
               ref={headlineRef}

@@ -275,7 +275,7 @@ export default function Hero() {
         {/* Content inside panel */}
         <div className="relative h-full flex">
           {/* Left content */}
-          <div className="flex-1 flex flex-col justify-center p-8 lg:p-12">
+          <div className="flex-1 flex flex-col justify-center p-8 lg:p-12 lg:max-w-[58%]">
             {/* Micro label */}
             <span className="font-mono text-xs uppercase tracking-[0.14em] text-8ntic-text-secondary mb-4">
               Research by Remco Vroom
