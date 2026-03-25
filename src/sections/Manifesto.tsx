@@ -238,7 +238,7 @@ export default function Manifesto() {
       >
         <div className="relative h-full flex">
           {/* Left content */}
-          <div className="flex-1 flex flex-col justify-center p-8 lg:p-12">
+          <div className="flex-1 flex flex-col justify-center p-8 lg:p-12 lg:max-w-[56%]">
             {/* Headline */}
             <h2
               ref={headlineRef}

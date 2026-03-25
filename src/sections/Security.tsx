@@ -266,7 +266,7 @@ export default function Security() {
       >
         <div className="relative h-full flex">
           {/* Left content */}
-          <div className="flex-1 flex flex-col justify-center p-8 lg:p-12">
+          <div className="flex-1 flex flex-col justify-center p-8 lg:p-12 lg:max-w-[54%]">
             {/* Headline */}
             <h2
               ref={headlineRef}
@@ -280,8 +280,7 @@ export default function Security() {
               ref={bodyRef}
               className="text-base lg:text-lg text-8ntic-text-secondary leading-relaxed max-w-lg mb-8"
             >
-              Autonomy without governance is risk. 8NTIC builds trust into the
-              architecture.
+              Autonomy without governance is risk. The Quantum Intelligence Protocol builds trust and speed into the architecture of agentic systems.
             </p>
 
             {/* Safeguards */}
