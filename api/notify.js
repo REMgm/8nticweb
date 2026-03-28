@@ -27,7 +27,7 @@ export default async function handler(req, res) {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        from: '8NTIC <notifications@8ntic.com>',
+        from: process.env.RESEND_FROM || 'onboarding@resend.dev',
         to: 'rem@8ntic.com',
         subject: `New 8NTIC contact: ${name}`,
         html: `
@@ -70,3 +70,4 @@ export default async function handler(req, res) {
     return res.status(500).json({ error: 'Internal error' });
   }
 }
+
