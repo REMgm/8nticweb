@@ -1,5 +1,4 @@
 export default async function handler(req, res) {
-  // CORS headers
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
@@ -15,9 +14,11 @@ export default async function handler(req, res) {
 
   const resendKey = process.env.RESEND_API_KEY;
   if (!resendKey) {
-    console.error('[notify] RESEND_API_KEY not configured');
-    return res.status(500).json({ error: 'Email service not configured' });
+    return res.status(500).json({ error: 'RESEND_API_KEY not configured' });
   }
+
+  const fromAddress = process.env.RESEND_FROM || 'onboarding@resend.dev';
+  const toAddress = process.env.NOTIFY_EMAIL || 'rem@8ntic.com';
 
   try {
     const response = await fetch('https://api.resend.com/emails', {
@@ -27,8 +28,8 @@ export default async function handler(req, res) {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        from: process.env.RESEND_FROM || 'onboarding@resend.dev',
-        to: 'rem@8ntic.com',
+        from: fromAddress,
+        to: toAddress,
         subject: `New 8NTIC contact: ${name}`,
         html: `
           <div style="font-family: -apple-system, system-ui, sans-serif; max-width: 560px; margin: 0 auto;">
@@ -51,23 +52,21 @@ export default async function handler(req, res) {
               </tr>
             </table>
             <div style="margin-top: 24px; padding-top: 16px; border-top: 1px solid #eee; font-size: 12px; color: #999;">
-              Sent from 8NTIC contact form · ${new Date().toISOString()}
+              Sent from 8NTIC contact form
             </div>
           </div>
         `,
       }),
     });
 
+    const data = await response.json();
+
     if (!response.ok) {
-      const err = await response.json();
-      console.error('[notify] Resend error:', err);
-      return res.status(500).json({ error: 'Email delivery failed' });
+      return res.status(500).json({ error: 'Email delivery failed', detail: data });
     }
 
-    return res.status(200).json({ ok: true });
+    return res.status(200).json({ ok: true, id: data.id });
   } catch (err) {
-    console.error('[notify] Error:', err);
-    return res.status(500).json({ error: 'Internal error' });
+    return res.status(500).json({ error: 'Internal error', detail: err.message });
   }
 }
-
