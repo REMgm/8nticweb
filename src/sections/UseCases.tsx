@@ -33,13 +33,11 @@ export default function UseCases() {
   const headingRef = useRef<HTMLHeadingElement>(null);
   const cardsRef = useRef<(HTMLDivElement | null)[]>([]);
   const imageRef = useRef<HTMLDivElement>(null);
-  const ctaRef = useRef<HTMLAnchorElement>(null);
 
   useEffect(() => {
     const section = sectionRef.current;
     const heading = headingRef.current;
     const image = imageRef.current;
-    const cta = ctaRef.current;
 
     if (!section || !heading) return;
 
@@ -104,24 +102,6 @@ export default function UseCases() {
         );
       }
 
-      // CTA animation
-      if (cta) {
-        gsap.fromTo(
-          cta,
-          { y: 20, opacity: 0 },
-          {
-            y: 0,
-            opacity: 1,
-            duration: 0.5,
-            ease: 'power2.out',
-            scrollTrigger: {
-              trigger: cta,
-              start: 'top 90%',
-              toggleActions: 'play none none reverse',
-            },
-          }
-        );
-      }
     }, section);
 
     return () => ctx.revert();
@@ -193,13 +173,8 @@ export default function UseCases() {
           </div>
         </div>
 
-        {/* CTA */}
-        <div className="mt-12 lg:mt-16 text-center">
-          <a ref={ctaRef} href="#contact" className="btn-primary inline-flex">
-            Request a demo
-          </a>
-        </div>
       </div>
     </section>
   );
 }
+
