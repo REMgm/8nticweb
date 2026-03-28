@@ -169,6 +169,17 @@ export default function Contact() {
 
       if (error) throw error;
 
+      // Fire-and-forget email notification
+      fetch('/api/notify', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name: formData.name,
+          email: formData.email,
+          message: formData.message,
+        }),
+      }).catch(() => {}); // Non-blocking — don't affect UX if notification fails
+
       trackFormSubmit('contact', { has_message: !!formData.message });
       setSubmitted(true);
     } catch (err: unknown) {
@@ -371,4 +382,5 @@ export default function Contact() {
     </section>
   );
 }
+
 
