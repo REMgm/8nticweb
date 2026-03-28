@@ -12,6 +12,7 @@ import Security from './sections/Security';
 import UseCases from './sections/UseCases';
 import About from './sections/About';
 import Contact from './sections/Contact';
+import { Analytics } from '@vercel/analytics/react';
 
 import { trackPageView } from './lib/analytics';
 import './App.css';
@@ -97,6 +98,7 @@ function App() {
         <About />
         <Contact />
       </main>
+                  <Analytics />
     </div>
   );
 }
