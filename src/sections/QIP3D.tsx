@@ -215,7 +215,9 @@ export default function QIP3D() {
     const onTouch=(e:TouchEvent)=>{const t=e.touches[0];if(!t)return;mouse.x=(t.clientX/w)*2-1;mouse.y=-(t.clientY/h)*2+1;raycaster.setFromCamera(mouse,camera);if(raycaster.intersectObjects(allInteractive).length>0&&Date.now()-lastDrop>400){lastDrop=Date.now();audioRef.current.drop();}};
     container.addEventListener('mousemove',onMouseMove);
     container.addEventListener('touchmove',onTouch,{passive:true});
-    container.addEventListener('click',()=>{audioRef.current.init();audioRef.current.drop();});
+    const onContainerClick = () => { audioRef.current.init(); setTimeout(() => audioRef.current.drop(), 50); };
+    container.addEventListener('click', onContainerClick);
+    container.addEventListener('touchstart', () => { audioRef.current.init(); setTimeout(() => audioRef.current.drop(), 50); }, { passive: true });
 
     const clock=new THREE.Clock(); let mouseX=0,mouseY=0;
     const onM=(e:MouseEvent)=>{mouseX=(e.clientX/w-0.5)*2;mouseY=(e.clientY/h-0.5)*2;};

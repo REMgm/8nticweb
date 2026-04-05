@@ -64,7 +64,7 @@ export default function UseCases() {
         if (card) {
           gsap.fromTo(
             card,
-            { y: 40, opacity: 0, scale: 0.98 },
+            { y: 40, opacity: 0, scale: 1 },
             {
               y: 0,
               opacity: 1,

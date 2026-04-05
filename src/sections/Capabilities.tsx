@@ -75,23 +75,23 @@ export default function Capabilities() {
         scrollTrigger: {
           trigger: section,
           start: 'top top',
-          end: '+=130%',
-          pin: true,
-          scrub: 0.6,
+          end: '+=80%',
+          pin: false,
+          scrub: 0.3,
         },
       });
 
       // ENTRANCE (0% - 30%)
       scrollTl.fromTo(
         panel,
-        { y: '10vh', opacity: 0, scale: 0.98 },
+        { y: '2vh', opacity: 0, scale: 1 },
         { y: 0, opacity: 1, scale: 1, ease: 'none' },
         0
       );
 
       scrollTl.fromTo(
         headline,
-        { y: '6vh', opacity: 0 },
+        { y: '1.5vh', opacity: 0 },
         { y: 0, opacity: 1, ease: 'none' },
         0.05
       );
@@ -105,14 +105,14 @@ export default function Capabilities() {
 
       scrollTl.fromTo(
         cta,
-        { y: '8vh', opacity: 0 },
+        { y: '2vh', opacity: 0 },
         { y: 0, opacity: 1, ease: 'none' },
         0.2
       );
 
       scrollTl.fromTo(
         image,
-        { y: '8vh', opacity: 0, scale: 1.05 },
+        { y: '2vh', opacity: 0, scale: 1 },
         { y: 0, opacity: 1, scale: 1, ease: 'none' },
         0.05
       );
@@ -141,21 +141,21 @@ export default function Capabilities() {
       scrollTl.fromTo(
         panel,
         { y: 0, opacity: 1 },
-        { y: '6vh', opacity: 0, ease: 'power2.in' },
+        { y: '1.5vh', opacity: 0, ease: 'power2.in' },
         0.7
       );
 
       scrollTl.fromTo(
         image,
         { y: 0, opacity: 1 },
-        { y: '4vh', opacity: 0, ease: 'power2.in' },
+        { y: '1vh', opacity: 0, ease: 'power2.in' },
         0.7
       );
 
       scrollTl.fromTo(
         [headline, listItems, cta],
         { y: 0, opacity: 1 },
-        { y: '-8vh', opacity: 0, ease: 'power2.in', stagger: 0.02 },
+        { y: '-1vh', opacity: 0, ease: 'power2.in', stagger: 0.02 },
         0.7
       );
 
