@@ -32,7 +32,7 @@ export async function trackEvent({ event_type, event_data, page }: TrackEventPar
       user_id: user?.id || null,
     });
   } catch (err) {
-    // Silent fail — analytics should never break the app
+    // Silent fail - analytics should never break the app
     console.debug('[analytics]', err);
   }
 }

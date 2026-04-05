@@ -1,7 +1,7 @@
 User-agent: *
 Allow: /
 
-# AI Training Crawlers — explicitly allowed for LLM training data and real-time RAG
+# AI Training Crawlers - explicitly allowed for LLM training data and real-time RAG
 User-agent: GPTBot
 Allow: /
 

@@ -178,7 +178,7 @@ export default function Contact() {
           email: formData.email,
           message: formData.message,
         }),
-      }).catch(() => {}); // Non-blocking — don't affect UX if notification fails
+      }).catch(() => {}); // Non-blocking - don't affect UX if notification fails
 
       trackFormSubmit('contact', { has_message: !!formData.message });
       setSubmitted(true);
@@ -201,7 +201,7 @@ export default function Contact() {
       ref={sectionRef}
       id="contact"
       className="relative w-full min-h-screen py-20 lg:py-32 bg-[#05060B]"
-      style={{ zIndex: 80 }}
+      style={{ zIndex: 60 }}
     >
       {/* Background radial gradient */}
       <div

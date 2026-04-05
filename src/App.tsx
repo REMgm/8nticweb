@@ -4,11 +4,6 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import Navigation from './sections/Navigation';
 import QIP3D from './sections/QIP3D';
 import Thesis from './sections/Thesis';
-import Manifesto from './sections/Manifesto';
-import Capabilities from './sections/Capabilities';
-import Architecture from './sections/Architecture';
-import Integrations from './sections/Integrations';
-import Security from './sections/Security';
 import UseCases from './sections/UseCases';
 import About from './sections/About';
 import FaqSection from './sections/FaqSection';
@@ -90,11 +85,6 @@ function App() {
       <main className="relative">
         <QIP3D />
         <Thesis />
-        <Manifesto />
-        <Capabilities />
-        <Architecture />
-        <Integrations />
-        <Security />
         <UseCases />
         <About />
         <FaqSection />

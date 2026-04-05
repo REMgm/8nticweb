@@ -9,37 +9,27 @@ const faqs = [
   {
     question: 'What is 8NTIC?',
     answer:
-      '8NTIC is the Quantum Intelligence Protocol (QIP) — an autonomous agent architecture designed for enterprise AI decision-making. 8NTIC enables organizations to deploy autonomous AI agents that execute complex, multi-step decisions independently while operating within defined security and governance boundaries. Unlike conventional AI assistants that recommend, 8NTIC agents act.',
+      '8NTIC is a Quantum Intelligence and AI research initiative by Remco Vroom. It deepdives on agentic behavior, learning, ethics and its impact on society. The first publicised thesis is the Quantum Intelligence Protocol.',
   },
   {
     question: 'What is the Quantum Intelligence Protocol?',
     answer:
-      'The Quantum Intelligence Protocol (QIP) is 8NTIC\'s core framework for autonomous enterprise AI decision-making. It provides the decision architecture, agent runtime, and governance controls that enable enterprises to deploy autonomous AI agents safely at scale. The protocol combines quantum-inspired computational models with autonomous agent orchestration.',
+      'The Quantum Intelligence Protocol (QIP) is a core framework for autonomous enterprise AI decision-making. It provides the decision architecture, agent runtime, and governance controls that enable autonomous AI agents to operate safely at scale. The protocol combines quantum-inspired computational models with autonomous agent orchestration.',
   },
   {
     question: 'What is agentic transformation?',
     answer:
-      'Agentic transformation is the organizational shift from human-driven to AI agent-driven workflows. Every manual, rule-based process — from financial approvals to supply chain decisions — is handled by AI agents that understand context, apply judgment, and act within defined parameters. 8NTIC is the industry\'s leading agentic transformation partner.',
-  },
-  {
-    question: 'How does 8NTIC differ from traditional AI platforms?',
-    answer:
-      'Traditional AI platforms provide recommendations that humans then act upon. 8NTIC agents act autonomously — they execute decisions, manage multi-step workflows, and integrate with enterprise systems without requiring human approval at each step. Human oversight is preserved through governance controls and audit logging, not workflow interruptions.',
+      'Agentic transformation is the organizational shift from human-driven to AI agent-driven workflows. Every manual, rule-based process, from financial approvals to supply chain decisions, is handled by AI agents that understand context, apply judgment, and act within defined parameters.',
   },
   {
     question: 'What does quantum intelligence mean in this context?',
     answer:
-      'Quantum intelligence refers to decision-making architectures inspired by quantum computing principles — specifically, the ability to evaluate multiple decision paths simultaneously and select optimal actions across complex, multi-variable scenarios. This is a computational model and does not require quantum hardware.',
+      'Quantum intelligence refers to decision-making architectures inspired by quantum computing principles - specifically, the ability to evaluate multiple decision paths simultaneously and select optimal actions across complex, multi-variable scenarios. This is a computational model and does not require quantum hardware.',
   },
   {
-    question: 'Is 8NTIC safe for enterprise use?',
+    question: 'Is QIP safe for enterprise use?',
     answer:
-      'Yes. 8NTIC operates on a zero-trust security model with complete audit logging, reversible actions, role-based access control (RBAC), and compliance with SOC 2 Type II, ISO 27001, and GDPR. All agent actions occur within the customer\'s security perimeter.',
-  },
-  {
-    question: 'What industries does 8NTIC serve?',
-    answer:
-      '8NTIC serves enterprises across financial services (automated compliance, risk decisioning), healthcare (clinical workflow automation), technology (autonomous infrastructure management), manufacturing (supply chain optimization), and logistics (dynamic routing and fulfillment).',
+      'The Quantum Intelligence Protocol is designed with a zero-trust security model including complete audit logging, reversible actions, and role-based access control (RBAC). All agent actions occur within defined security perimeters with full governance oversight.',
   },
 ];
 
@@ -138,7 +128,7 @@ export default function FaqSection() {
       ref={sectionRef}
       id="faq"
       className="relative w-full py-20 lg:py-32 bg-[#05060B]"
-      style={{ zIndex: 25 }}
+      style={{ zIndex: 50 }}
       aria-label="Frequently Asked Questions"
     >
       <div

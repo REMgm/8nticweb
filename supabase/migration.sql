@@ -1,5 +1,5 @@
 -- ============================================
--- 8NTIC Quantum Intelligence — Supabase Schema
+-- 8NTIC Quantum Intelligence - Supabase Schema
 -- ============================================
 
 -- 1. CONTACTS TABLE
