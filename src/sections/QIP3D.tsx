@@ -126,23 +126,15 @@ function createAudioEngine() {
 export default function QIP3D() {
   const mountRef = useRef<HTMLDivElement>(null);
   const audioRef = useRef(createAudioEngine());
-  const [showOverlay, setShowOverlay] = useState(false);
-  const [showScrollHint, setShowScrollHint] = useState(false);
+  const [showOverlay, setShowOverlay] = useState(true);
+  const [showScrollHint, setShowScrollHint] = useState(true);
   const [isMuted, setIsMuted] = useState(false);
-  const scrollTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
-  // Auto-reveal overlay after 2s, then scroll hint 1.5s after overlay
+  // Hide scroll hint on scroll
   useEffect(() => {
-    scrollTimerRef.current = setTimeout(() => {
-      setShowOverlay(true);
-      setTimeout(() => setShowScrollHint(true), 1500);
-    }, 2000);
-    const onScroll = () => {
-      if (scrollTimerRef.current) clearTimeout(scrollTimerRef.current);
-      setShowScrollHint(false);
-    };
+    const onScroll = () => setShowScrollHint(false);
     window.addEventListener('scroll', onScroll, { once: true });
-    return () => { if (scrollTimerRef.current) clearTimeout(scrollTimerRef.current); window.removeEventListener('scroll', onScroll); };
+    return () => window.removeEventListener('scroll', onScroll);
   }, []);
 
   useEffect(() => {
@@ -289,7 +281,7 @@ export default function QIP3D() {
         <div className="w-full px-6 sm:px-10 pb-12 sm:pb-16 pt-24 sm:pt-32"
           style={{ background: 'linear-gradient(to top, rgba(5,6,11,0.98) 40%, rgba(5,6,11,0.7) 75%, transparent 100%)' }}>
           <div className="max-w-xl">
-            <span className="font-mono text-[10px] sm:text-xs uppercase tracking-[0.14em] text-white/40 mb-2 sm:mb-3 block">Research by Remco Vroom</span>
+            <span className="font-mono text-[10px] sm:text-xs uppercase tracking-[0.14em] text-[#b478ff] mb-2 sm:mb-3 block">Research by Remco Vroom</span>
             <h2 className="font-heading text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-semibold text-white leading-[1.08] tracking-tight mb-3 sm:mb-4">Quantum Intelligence</h2>
             <p className="text-sm sm:text-base lg:text-lg text-white/50 max-w-md leading-relaxed">
               A unified theory for autonomous agent governance. From quantum mechanics to cognitive architecture, the missing intelligence layer in AI infrastructure.
