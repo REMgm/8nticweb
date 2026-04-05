@@ -126,7 +126,7 @@ function createAudioEngine() {
 export default function QIP3D() {
   const mountRef = useRef<HTMLDivElement>(null);
   const audioRef = useRef(createAudioEngine());
-  const [showOverlay, setShowOverlay] = useState(true);
+  const [showOverlay] = useState(true);
   const [showScrollHint, setShowScrollHint] = useState(true);
   const [isMuted, setIsMuted] = useState(false);
 
