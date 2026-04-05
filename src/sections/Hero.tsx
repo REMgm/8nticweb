@@ -130,7 +130,7 @@ export default function Hero() {
             gsap.set(image, { x: 0, scale: 1, opacity: 1 });
             gsap.set([headline, subheadline, author, cta], { y: 0, opacity: 1 });
             nodesRef.current.forEach((node) => {
-              if (node) gsap.set(node, { x: 0, y: 0, opacity: 1 });
+              if (node) gsap.set(node, { y: 0, opacity: 1 });
             });
           },
         },
@@ -140,14 +140,14 @@ export default function Hero() {
       scrollTl.fromTo(
         panel,
         { x: 0, opacity: 1 },
-        { x: '-18vw', opacity: 0, ease: 'power2.in' },
+        { y: '6vh', opacity: 0, ease: 'power2.in' },
         0.7
       );
 
       scrollTl.fromTo(
         image,
         { x: 0, scale: 1, opacity: 1 },
-        { x: '10vw', scale: 1.06, opacity: 0, ease: 'power2.in' },
+        { y: '4vh', scale: 1.06, opacity: 0, ease: 'power2.in' },
         0.7
       );
 
@@ -164,8 +164,8 @@ export default function Hero() {
           const directionY = i % 3 === 0 ? 10 : -10;
           scrollTl.fromTo(
             node,
-            { x: 0, y: 0, opacity: 1 },
-            { x: `${directionX}vw`, y: `${directionY}vh`, opacity: 0, ease: 'power2.in' },
+            { y: 0, opacity: 1 },
+            { y: `${directionY}vh`, opacity: 0, ease: 'power2.in' },
             0.7 + i * 0.01
           );
         }

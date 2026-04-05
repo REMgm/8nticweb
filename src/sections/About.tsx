@@ -1,7 +1,7 @@
 import { useEffect, useRef } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { MapPin, Linkedin, Mail } from 'lucide-react';
+import { MapPin, Linkedin } from 'lucide-react';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -158,13 +158,6 @@ export default function About() {
               >
                 <Linkedin className="w-4 h-4 text-8ntic-accent" />
                 LinkedIn
-              </a>
-              <a
-                href="mailto:rem@8ntic.com"
-                className="flex items-center gap-2 text-sm text-8ntic-text-secondary hover:text-white transition-colors"
-              >
-                <Mail className="w-4 h-4 text-8ntic-accent" />
-                rem@8ntic.com
               </a>
             </div>
           </div>
