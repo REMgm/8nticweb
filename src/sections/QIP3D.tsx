@@ -21,49 +21,50 @@ function createAudioEngine() {
       masterGain.gain.value = 0;
       masterGain.connect(ctx.destination);
 
-      // Spacey ambient pad: soft filtered drones
-      const padGain = ctx.createGain();
-      padGain.gain.value = 0.7;
-      const filter = ctx.createBiquadFilter();
-      filter.type = 'lowpass';
-      filter.frequency.value = 200;
-      filter.Q.value = 2;
-      padGain.connect(filter);
-      filter.connect(masterGain);
+      // Underwater ambience: deep filtered noise + slow modulated tones
+      const bufSize = ctx.sampleRate * 4;
+      const noiseBuffer = ctx.createBuffer(1, bufSize, ctx.sampleRate);
+      const data = noiseBuffer.getChannelData(0);
+      for (let i = 0; i < bufSize; i++) data[i] = (Math.random() * 2 - 1);
 
-      // Deep sub-bass drone
-      const o1 = ctx.createOscillator();
-      o1.type = 'sine'; o1.frequency.value = 40;
-      o1.connect(padGain); o1.start();
+      const noise = ctx.createBufferSource();
+      noise.buffer = noiseBuffer; noise.loop = true;
 
-      // Warm fifth
-      const o2 = ctx.createOscillator();
-      o2.type = 'sine'; o2.frequency.value = 60;
-      const g2 = ctx.createGain(); g2.gain.value = 0.4;
-      o2.connect(g2); g2.connect(padGain); o2.start();
+      // Heavy lowpass for muffled underwater character
+      const lpf = ctx.createBiquadFilter();
+      lpf.type = 'lowpass'; lpf.frequency.value = 120; lpf.Q.value = 8;
 
-      // Soft octave shimmer
-      const o3 = ctx.createOscillator();
-      o3.type = 'sine'; o3.frequency.value = 80;
-      const g3 = ctx.createGain(); g3.gain.value = 0.15;
-      o3.connect(g3); g3.connect(padGain); o3.start();
-
-      // Slow LFO on filter for breathing movement
+      // Slow LFO breathing on filter
       const lfo = ctx.createOscillator();
-      lfo.type = 'sine'; lfo.frequency.value = 0.08;
-      const lfoGain = ctx.createGain();
-      lfoGain.gain.value = 80;
-      lfo.connect(lfoGain);
-      lfoGain.connect(filter.frequency);
-      lfo.start();
+      lfo.type = 'sine'; lfo.frequency.value = 0.06;
+      const lfoG = ctx.createGain(); lfoG.gain.value = 60;
+      lfo.connect(lfoG); lfoG.connect(lpf.frequency); lfo.start();
 
-      // Gentle fade in over 4 seconds
-      masterGain.gain.linearRampToValueAtTime(0.13, ctx.currentTime + 4);
+      const noiseGain = ctx.createGain(); noiseGain.gain.value = 0.5;
+      noise.connect(lpf); lpf.connect(noiseGain); noiseGain.connect(masterGain);
+      noise.start();
+
+      // Deep resonant tone
+      const tone1 = ctx.createOscillator();
+      tone1.type = 'sine'; tone1.frequency.value = 48;
+      const t1g = ctx.createGain(); t1g.gain.value = 0.25;
+      tone1.connect(t1g); t1g.connect(masterGain); tone1.start();
+
+      // Gentle fifth shimmer
+      const tone2 = ctx.createOscillator();
+      tone2.type = 'sine'; tone2.frequency.value = 72;
+      const t2g = ctx.createGain(); t2g.gain.value = 0.1;
+      const t2lfo = ctx.createOscillator(); t2lfo.frequency.value = 0.03;
+      const t2lfoG = ctx.createGain(); t2lfoG.gain.value = 0.08;
+      t2lfo.connect(t2lfoG); t2lfoG.connect(t2g.gain);
+      tone2.connect(t2g); t2g.connect(masterGain);
+      tone2.start(); t2lfo.start();
+
+      masterGain.gain.linearRampToValueAtTime(0.12, ctx.currentTime + 5);
       started = true;
     } catch {}
   }
-
-  // Water drop: sine with fast pitch descent + echo tail
+  // Water drop with underwater echo
   function drop() {
     if (!ctx || muted) return;
     const now = ctx.currentTime;
@@ -284,8 +285,7 @@ export default function QIP3D() {
       </button>
 
       {/* Auto-reveal overlay */}
-      <div className="absolute inset-0 flex items-end justify-center pointer-events-none"
-        style={{ transition: 'transform 1.8s cubic-bezier(0.25,0.46,0.45,0.94), opacity 1.5s ease', transform: showOverlay ? 'translateY(0)' : 'translateY(100%)', opacity: showOverlay ? 1 : 0 }}>
+      <div className="absolute inset-0 flex items-end justify-center" style={{ pointerEvents: showOverlay ? 'auto' : 'none', transition: 'transform 1.8s cubic-bezier(0.25,0.46,0.45,0.94), opacity 1.5s ease', transform: showOverlay ? 'translateY(0)' : 'translateY(100%)', opacity: showOverlay ? 1 : 0 }}>
         <div className="w-full px-6 sm:px-10 pb-12 sm:pb-16 pt-24 sm:pt-32"
           style={{ background: 'linear-gradient(to top, rgba(5,6,11,0.98) 40%, rgba(5,6,11,0.7) 75%, transparent 100%)' }}>
           <div className="max-w-xl">
@@ -296,15 +296,17 @@ export default function QIP3D() {
             </p>
           </div>
 
-          {/* Scroll down - appears after overlay slides in */}
+          {/* READ THE THESIS - clickable, appears after overlay */}
           <div className="flex justify-center mt-8 sm:mt-10"
-            style={{ opacity: showScrollHint ? 0.5 : 0, transition: 'opacity 1.2s ease', transitionDelay: '0.3s' }}>
-            <div className="flex flex-col items-center gap-1.5">
-              <span className="text-[9px] sm:text-[11px] font-mono uppercase tracking-[0.25em] text-white/50">scroll down</span>
+            style={{ opacity: showScrollHint ? 1 : 0, transition: 'opacity 1.2s ease', transitionDelay: '0.3s' }}>
+            <a href="#thesis" className="group flex flex-col items-center gap-2 no-underline">
+              <span className="text-[11px] sm:text-[13px] font-mono uppercase tracking-[0.3em] text-[#b478ff] group-hover:text-white transition-colors duration-300">
+                Read the Thesis
+              </span>
               <svg width="14" height="20" viewBox="0 0 16 24" fill="none" className="animate-bounce">
-                <path d="M8 4v12M3 12l5 5 5-5" stroke="rgba(255,255,255,0.4)" strokeWidth="1.5" strokeLinecap="round" />
+                <path d="M8 4v12M3 12l5 5 5-5" stroke="rgba(180,120,255,0.6)" strokeWidth="1.5" strokeLinecap="round" />
               </svg>
-            </div>
+            </a>
           </div>
         </div>
       </div>
