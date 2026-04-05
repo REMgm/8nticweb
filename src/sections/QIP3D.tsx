@@ -204,8 +204,10 @@ export default function QIP3D() {
 
     // Orbits + particles
     const oMat = (c:number,o:number) => new THREE.MeshBasicMaterial({ color:c, transparent:true, opacity:o, side:THREE.DoubleSide });
-    scene.add(Object.assign(new THREE.Mesh(new THREE.RingGeometry(swarmR-0.04,swarmR+0.04,96), oMat(TEAL_DARK,0.06)), {rotation:{x:Math.PI/2,y:0,z:0}} as any));
-    scene.add(Object.assign(new THREE.Mesh(new THREE.RingGeometry(triR-0.03,triR+0.03,64), oMat(TEAL,0.04)), {rotation:{x:Math.PI/2,y:0,z:0}} as any));
+    const outerOrbit = new THREE.Mesh(new THREE.RingGeometry(swarmR-0.04,swarmR+0.04,96), oMat(TEAL_DARK,0.06));
+    outerOrbit.rotation.x = Math.PI/2; scene.add(outerOrbit);
+    const innerOrbit = new THREE.Mesh(new THREE.RingGeometry(triR-0.03,triR+0.03,64), oMat(TEAL,0.04));
+    innerOrbit.rotation.x = Math.PI/2; scene.add(innerOrbit);
     const pCount=isMobile?150:350; const pGeo=new THREE.BufferGeometry(); const pPos=new Float32Array(pCount*3);
     for(let i=0;i<pCount;i++){pPos[i*3]=(Math.random()-0.5)*50;pPos[i*3+1]=(Math.random()-0.5)*25;pPos[i*3+2]=(Math.random()-0.5)*50;}
     pGeo.setAttribute('position',new THREE.BufferAttribute(pPos,3));
