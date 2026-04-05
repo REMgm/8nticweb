@@ -11,6 +11,7 @@ import Integrations from './sections/Integrations';
 import Security from './sections/Security';
 import UseCases from './sections/UseCases';
 import About from './sections/About';
+import FaqSection from './sections/FaqSection';
 import Contact from './sections/Contact';
 import { Analytics } from '@vercel/analytics/react';
 
@@ -96,6 +97,7 @@ function App() {
         <Security />
         <UseCases />
         <About />
+        <FaqSection />
         <Contact />
       </main>
                   <Analytics />
