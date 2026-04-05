@@ -110,8 +110,8 @@ export default function Architecture() {
 
       scrollTl.fromTo(
         body,
-        { x: '18vw', opacity: 0 },
-        { x: 0, opacity: 1, ease: 'none' },
+        { y: '6vh', opacity: 0 },
+        { y: 0, opacity: 1, ease: 'none' },
         0.15
       );
 
@@ -124,8 +124,8 @@ export default function Architecture() {
 
       scrollTl.fromTo(
         image,
-        { x: '40vw', opacity: 0, scale: 1.05 },
-        { x: 0, opacity: 1, scale: 1, ease: 'none' },
+        { y: '8vh', opacity: 0, scale: 1.05 },
+        { y: 0, opacity: 1, scale: 1, ease: 'none' },
         0.1
       );
 
@@ -166,8 +166,8 @@ export default function Architecture() {
 
       scrollTl.fromTo(
         image,
-        { x: 0, opacity: 1 },
-        { x: '10vw', opacity: 0, ease: 'power2.in' },
+        { y: 0, opacity: 1 },
+        { y: '4vh', opacity: 0, ease: 'power2.in' },
         0.7
       );
 
@@ -177,8 +177,8 @@ export default function Architecture() {
           const directionY = i % 3 === 0 ? 12 : -12;
           scrollTl.fromTo(
             node,
-            { x: 0, y: 0, opacity: 1 },
-            { x: `${directionX}vw`, y: `${directionY}vh`, opacity: 0, ease: 'power2.in' },
+            { y: 0, opacity: 1 },
+            { y: `${directionY}vh`, opacity: 0, ease: 'power2.in' },
             0.7 + i * 0.01
           );
         }

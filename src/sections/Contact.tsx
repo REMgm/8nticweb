@@ -352,18 +352,6 @@ export default function Contact() {
           )}
 
           {/* Alternative contact */}
-          <div className="mt-8 pt-8 border-t border-white/10 text-center">
-            <p className="text-sm text-8ntic-text-secondary mb-2">
-              Prefer email?
-            </p>
-            <a
-              href="mailto:rem@8ntic.com"
-              className="inline-flex items-center gap-2 text-8ntic-accent hover:text-white transition-colors"
-            >
-              <Mail className="w-4 h-4" />
-              rem@8ntic.com
-            </a>
-          </div>
         </div>
 
         {/* Footer */}
