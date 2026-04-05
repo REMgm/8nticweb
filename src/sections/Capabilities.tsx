@@ -161,7 +161,7 @@ export default function Capabilities() {
 
       nodesRef.current.forEach((node, i) => {
         if (node) {
-          const directionX = i % 2 === 0 ? -8 : 8;
+          // removed directionX
           const directionY = i % 3 === 0 ? 12 : -12;
           scrollTl.fromTo(
             node,

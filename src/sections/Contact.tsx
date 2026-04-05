@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { Send, Mail, MessageSquare, Loader2 } from 'lucide-react';
+import { Send, MessageSquare, Loader2 } from 'lucide-react';
 import { supabase } from '../lib/supabase';
 import { trackFormSubmit } from '../lib/analytics';
 
