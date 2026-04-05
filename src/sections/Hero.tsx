@@ -160,7 +160,7 @@ export default function Hero() {
 
       nodesRef.current.forEach((node, i) => {
         if (node) {
-          const directionX = i % 2 === 0 ? 6 : -6;
+          // removed directionX
           const directionY = i % 3 === 0 ? 10 : -10;
           scrollTl.fromTo(
             node,
