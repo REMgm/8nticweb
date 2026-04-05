@@ -2,6 +2,7 @@ import { useEffect } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import Navigation from './sections/Navigation';
+import QIP3D from './sections/QIP3D';
 import Hero from './sections/Hero';
 import Thesis from './sections/Thesis';
 import Manifesto from './sections/Manifesto';
@@ -87,6 +88,7 @@ function App() {
 
       {/* Main content */}
       <main className="relative">
+        <QIP3D />
         <Hero />
         <Thesis />
         <Manifesto />
