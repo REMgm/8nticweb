@@ -1,9 +1,7 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { Quote, Mail, Check, Bell, Loader2 } from 'lucide-react';
-import { supabase } from '../lib/supabase';
-import { trackFormSubmit } from '../lib/analytics';
+import { Quote, ArrowUpRight } from 'lucide-react';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -14,9 +12,6 @@ export default function Thesis() {
   const principlesRef = useRef<HTMLDivElement>(null);
   const ctaRef = useRef<HTMLDivElement>(null);
 
-  const [email, setEmail] = useState('');
-  const [registered, setRegistered] = useState(false);
-  const [submitting, setSubmitting] = useState(false);
 
   useEffect(() => {
     const section = sectionRef.current;
@@ -105,26 +100,7 @@ export default function Thesis() {
     return () => ctx.revert();
   }, []);
 
-  const handleRegister = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!email) return;
-    setSubmitting(true);
 
-    try {
-      if (!supabase) throw new Error('Backend not available');
-      await supabase.from('contacts').insert({
-        name: '',
-        email,
-        message: 'Thesis registration',
-      });
-      trackFormSubmit('thesis_registration');
-      setRegistered(true);
-    } catch (err) {
-      console.error('Registration error:', err);
-    } finally {
-      setSubmitting(false);
-    }
-  };
 
   const principles = [
     {
@@ -246,53 +222,39 @@ export default function Thesis() {
           </div>
         </div>
 
-        {/* Registration CTA */}
-        <div ref={ctaRef} className="glass-panel p-8 lg:p-10">
-          <div className="text-center mb-6">
-            <Bell className="w-8 h-8 text-8ntic-accent mx-auto mb-4" />
-            <h3 className="font-heading text-xl lg:text-2xl font-semibold text-white mb-2">
-              Register for Public Release
-            </h3>
-            <p className="text-8ntic-text-secondary max-w-lg mx-auto">
-              Be the first to receive the complete thesis when it becomes publicly available.
-            </p>
-          </div>
-
-          {!registered ? (
-            <form onSubmit={handleRegister} className="max-w-md mx-auto">
-              <div className="flex flex-col sm:flex-row gap-3">
-                <div className="flex-1 relative">
-                  <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-8ntic-text-secondary" />
-                  <input
-                    type="email"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    required
-                    placeholder="Enter your email"
-                    className="w-full pl-11 pr-4 py-3 rounded-xl bg-white/5 border border-white/10 text-white placeholder-white/30 focus:outline-none focus:border-8ntic-accent/50 focus:ring-1 focus:ring-8ntic-accent/50 transition-colors"
-                  />
-                </div>
-                <button
-                  type="submit"
-                  disabled={submitting}
-                  className="btn-primary flex items-center justify-center gap-2 whitespace-nowrap disabled:opacity-50"
-                >
-                  {submitting ? <Loader2 className="w-4 h-4 animate-spin" /> : null}
-                  {submitting ? 'Registering...' : 'Register'}
-                </button>
-              </div>
-            </form>
-          ) : (
-            <div className="text-center py-4">
-              <div className="w-12 h-12 rounded-full bg-8ntic-accent/20 flex items-center justify-center mx-auto mb-3">
-                <Check className="w-6 h-6 text-8ntic-accent" />
-              </div>
-              <p className="text-white font-medium mb-1">You're registered!</p>
-              <p className="text-sm text-8ntic-text-secondary">
-                You'll receive the thesis when it's released.
-              </p>
+        {/* Substack CTA */}
+        <div ref={ctaRef} className="relative overflow-hidden rounded-2xl border border-white/[0.08]">
+          {/* Animated gradient background */}
+          <div className="absolute inset-0 bg-gradient-to-br from-8ntic-accent/15 via-transparent to-purple-500/10" />
+          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,rgba(100,80,255,0.12),transparent_60%)]" />
+          
+          <div className="relative px-8 py-10 lg:px-12 lg:py-14 flex flex-col items-center text-center">
+            {/* Decorative ring */}
+            <div className="w-16 h-16 rounded-full border border-8ntic-accent/30 flex items-center justify-center mb-6 relative">
+              <div className="absolute inset-0 rounded-full bg-8ntic-accent/10 animate-ping" style={{ animationDuration: '3s' }} />
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="text-8ntic-accent">
+                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
+                <polyline points="22,6 12,13 2,6" />
+              </svg>
             </div>
-          )}
+            
+            <h3 className="font-heading text-2xl lg:text-3xl font-semibold text-white mb-3 tracking-tight">
+              The thesis is live
+            </h3>
+            <p className="text-8ntic-text-secondary max-w-md mx-auto mb-8 leading-relaxed">
+              Quantum Intelligence Protocol: the complete framework for autonomous agent governance. Read it now on Substack.
+            </p>
+            
+            <a
+              href="https://open.substack.com/pub/rem8ntic/p/quantum-intelligence-protocol?utm_campaign=post-expanded-share&utm_medium=web"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="group inline-flex items-center gap-3 px-8 py-4 rounded-xl bg-8ntic-accent text-white font-semibold text-lg transition-all duration-300 hover:bg-8ntic-accent/90 hover:shadow-[0_0_30px_rgba(100,80,255,0.4)] hover:scale-[1.02] active:scale-[0.98]"
+            >
+              Read the thesis on Substack
+              <ArrowUpRight className="w-5 h-5 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+            </a>
+          </div>
         </div>
       </div>
     </section>
