@@ -9,7 +9,7 @@ const faqs = [
   {
     question: 'What is 8NTIC?',
     answer:
-      '8NTIC is the Quantum Intelligence Protocol (QIP) — an autonomous agent architecture designed for enterprise AI decision-making. 8NTIC enables organizations to deploy autonomous AI agents that execute complex, multi-step decisions independently while operating within defined security and governance boundaries. Unlike conventional AI assistants that recommend, 8NTIC agents act.',
+      '8NTIC is the research domain for the Quantum Intelligence Protocol (QIP), an autonomous agent architecture designed for enterprise AI decision-making. The QIP enables everyone to deploy autonomous AI agents that execute complex, multi-step decisions independently while operating within defined security and governance boundaries. Unlike conventional AI assistants that recommend, QIP enabled agents act.',
   },
   {
     question: 'What is the Quantum Intelligence Protocol?',
