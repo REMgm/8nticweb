@@ -6,6 +6,7 @@ import { Experience } from "@/components/Experience";
 import { siteMetadata,siteJsonLd,jsonLdStringify } from "@/lib/seo";
 import "./globals.css";
 import "@/styles/publications.css";
+import "@/styles/companion.css";
 
 const manrope = localFont({src:"../node_modules/@fontsource-variable/manrope/files/manrope-latin-wght-normal.woff2",variable:"--font-sans",display:"swap",weight:"200 800"});
 const newsreader = localFont({src:[{path:"../node_modules/@fontsource-variable/newsreader/files/newsreader-latin-wght-normal.woff2",weight:"200 800",style:"normal"},{path:"../node_modules/@fontsource-variable/newsreader/files/newsreader-latin-wght-italic.woff2",weight:"200 800",style:"italic"}],variable:"--font-display",display:"swap"});

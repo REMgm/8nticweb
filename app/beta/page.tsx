@@ -1,5 +1,6 @@
-import { BetaForm } from "@/components/BetaForm";
+import { BetaSignup } from "@/components/BetaSignup";
 import { MascotMark } from "@/components/Brand";
+import { isBetaSignupAvailable } from "@/lib/beta/availability";
 import { pageMetadata } from "@/lib/seo";
-export const metadata=pageMetadata({title:"Beta and research updates",description:"Sign up for notification when 8NTIC is ready to share beta news and research updates. Name and email only, with your explicit permission.",path:"/beta"});
-export default function Beta(){return <div className="page-shell shell"><section className="signup-section beta-page"><div className="signup-copy"><MascotMark/><h1>Be here for<br/><em>what comes next.</em></h1><p>Leave your name and email. We’ll let you know when we’re ready to share beta news and research updates.</p><p className="caption">A notification list, not a beta-access guarantee.</p></div><BetaForm/></section></div>}
+export const metadata=pageMetadata({title:"Beta and research updates",description:isBetaSignupAvailable()?"Sign up for notification when 8NTIC is ready to share beta news and research updates. Name and email only, with your explicit permission.":"Follow the next chapter of 8NTIC. Beta signups are not open yet; explore QIP and read the latest publications in the meantime.",path:"/beta"});
+export default function Beta(){const available=isBetaSignupAvailable();return <div className="page-shell shell"><section className="signup-section beta-page"><div className="signup-copy"><MascotMark/><h1>Be here for<br/><em>what comes next.</em></h1>{available?<><p>Leave your name and email. We’ll let you know when we’re ready to share beta news and research updates.</p><p className="caption">A notification list, not a beta-access guarantee.</p></>:<p>There’s more to discover. Follow the research and ideas as they develop.</p>}</div><BetaSignup available={available} headingLevel={2}/></section></div>}

@@ -5,11 +5,12 @@ import { QipLoop } from "@/components/QipLoop";
 import { Reveal } from "@/components/Reveal";
 import { Experiments } from "@/components/Experiments";
 import { Publications } from "@/components/Publications";
-import { BetaForm } from "@/components/BetaForm";
+import { BetaSignup } from "@/components/BetaSignup";
+import { isBetaSignupAvailable } from "@/lib/beta/availability";
 import { MascotMark } from "@/components/Brand";
 import { pageMetadata } from "@/lib/seo";
 export const metadata=pageMetadata({title:"QIP, human curiosity and shared intelligence",description:"Explore QIP, the Quantum Intelligence Protocol, at 8NTIC. Research into agent memory, custom models and human collaboration, with interactive publications and experiments.",path:"/"});
-export default function Home(){return <>
+export default function Home(){const signupAvailable=isBetaSignupAvailable();return <>
   <Hero/>
   <section id="qip" className="section shell qip-intro">
     <Reveal>
@@ -22,8 +23,8 @@ export default function Home(){return <>
     </Reveal>
     <div id="the-loop"><QipLoop/></div>
   </section>
-  <section id="research" className="research-feature"><div className="shell"><Reveal><p className="eyebrow">Research in progress</p><h2>What if a model learned<br/><em>your way of working?</em></h2><p>We’re researching custom models trained on a business’s knowledge, language and decisions, then testing how well they handle real work.</p><Link className="text-link" href="/research">Explore the research <ArrowUpRightIcon size={20}/></Link></Reveal></div><div className="research-light" aria-hidden="true"/></section>
+  <section id="research" className="research-feature"><div className="shell"><Reveal><p className="eyebrow">Research in progress</p><h2>What if a model learned <br/><em>your way of working?</em></h2><p>We’re researching custom models trained on a business’s knowledge, language and decisions, then testing how well they handle real work.</p><Link className="text-link" href="/research">Explore the research <ArrowUpRightIcon size={20}/></Link></Reveal></div><div className="research-light" aria-hidden="true"/></section>
   <section id="experiments" className="section shell"><Reveal><div className="section-heading"><h2>Follow the question.</h2><p>Small experiments with something to teach us. Open one, try it, and see where it takes you.</p></div><Experiments/></Reveal></section>
   <section id="publications" className="section publication-home shell"><div className="section-heading"><p className="eyebrow">Publications</p><h2>Ideas worth staying with.</h2><p>Essays, research and interactive explanations. Open a publication and take your time.</p></div><Publications showHeading={false}/><Link className="text-link all-publications" href="/publications">All publications <ArrowRightIcon size={19}/></Link></section>
-  <section id="contact" className="section shell signup-section"><div className="signup-copy"><MascotMark/><h2>Be here for<br/><em>what comes next.</em></h2><p>Leave your name and email. We’ll let you know when we’re ready to share beta news and research updates.</p></div><BetaForm/></section>
+  <section id="contact" className="section shell signup-section"><div className="signup-copy"><MascotMark/><h2>Be here for<br/><em>what comes next.</em></h2><p>{signupAvailable?"Leave your name and email. We’ll let you know when we’re ready to share beta news and research updates.":"There’s more to discover. Follow the research and ideas as they develop."}</p></div><BetaSignup available={signupAvailable}/></section>
 </>}

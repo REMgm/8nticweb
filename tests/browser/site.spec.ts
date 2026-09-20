@@ -5,7 +5,7 @@ const sizes=[{width:375,height:812},{width:390,height:844},{width:393,height:852
 for(const size of sizes){test(`iPhone viewport ${size.width}: touch-ready navigation and no overflow`,async({page})=>{
   await page.setViewportSize(size);await page.goto('/');await expect(page.getByRole('heading',{level:1})).toBeVisible();
   expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
-  const cta=page.getByRole('link',{name:'Explore QIP',exact:true});await expect(cta).toBeInViewport();
+  const cta=page.locator('.hero').getByRole('link',{name:'Explore QIP',exact:true});await expect(cta).toBeInViewport();
   await page.getByRole('button',{name:'Open menu',exact:true}).tap();await expect(page.getByRole('navigation',{name:'Mobile navigation'})).toBeVisible();
   await page.getByRole('navigation',{name:'Mobile navigation'}).getByRole('link',{name:'Research',exact:true}).click();
   await expect(page).toHaveURL(/\/research$/);await expect(page.getByRole('button',{name:'Open menu',exact:true})).toHaveAttribute('aria-expanded','false');
@@ -35,7 +35,9 @@ test('all content routes, crawlable metadata and no horizontal overflow',async({
 });
 
 test('beta validation and database failure cannot claim success',async({page})=>{
-  await page.setViewportSize({width:390,height:844});await page.goto('/beta');await page.getByRole('button',{name:'Keep me in the loop'}).click();await expect(page.locator('.form-summary[role=alert]')).toBeVisible();
+  await page.setViewportSize({width:390,height:844});await page.goto('/beta');
+  if(await page.locator('.beta-prelaunch').count()){await expect(page.locator('.beta-prelaunch')).toContainText('Signups aren’t open yet.');await expect(page.getByRole('textbox')).toHaveCount(0);await expect(page.getByRole('link',{name:/Read publications/})).toHaveAttribute('href','/publications');return;}
+  await page.getByRole('button',{name:'Keep me in the loop'}).click();await expect(page.locator('.form-summary[role=alert]')).toBeVisible();
   await page.getByLabel('Your name',{exact:true}).fill('Browser test');await page.getByLabel('Email address',{exact:true}).fill('browser-test@example.com');
   const consent=page.getByRole('checkbox');await expect(consent).not.toBeChecked();await consent.check();
   await page.route('**/api/beta-signups',route=>route.fulfill({status:503,contentType:'application/json',body:JSON.stringify({message:'We couldn’t confirm your request. Please try again.'})}));
@@ -55,6 +57,6 @@ test('critical accessibility checks',async({page})=>{
 });
 
 test('desktop, landscape and 404 recovery',async({page})=>{
-  for(const size of [{width:1440,height:1000},{width:844,height:390},{width:320,height:740}]){await page.setViewportSize(size);await page.goto('/');expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);await expect(page.getByRole('link',{name:'Explore QIP',exact:true})).toBeVisible();}
+  for(const size of [{width:1440,height:1000},{width:844,height:390},{width:320,height:740}]){await page.setViewportSize(size);await page.goto('/');expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);await expect(page.locator('.hero').getByRole('link',{name:'Explore QIP',exact:true})).toBeVisible();}
   await page.goto('/publications/no-such-publication');await expect(page.getByRole('heading',{name:'A little off the path.'})).toBeVisible();await expect(page.locator('meta[name=robots]')).toHaveAttribute('content',/noindex/);await page.getByRole('link',{name:'Back to 8NTIC'}).click();await expect(page).toHaveURL('/');
 });

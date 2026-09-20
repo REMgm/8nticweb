@@ -17,7 +17,7 @@ Open http://localhost:3000. `npm run build` creates the production build; `npm r
 
 - Server-rendered pages and complete publication prose, with isolated client interactions.
 - QIP loop: select each stage and follow an illustrative task into its next cycle.
-- NTIC companion: camera-eye mascot and three curiosity prompts.
+- NTIC companion: camera-eye mascot, three curiosity prompts with useful destinations, and an experiment chooser using the approved icon.
 - Expandable Recorder / QIP Adapter explorations and publication previews.
 - The Token Gap: original supplied narrative, a playable token-race illustration, static numbers, historical assumptions and sources.
 - Subtle ambience and action tones start only after an explicit sound gesture. Sound pauses when the tab is hidden. Motion has a separate control and respects reduced-motion preferences.
@@ -29,7 +29,7 @@ Add publication metadata in `lib/publications.ts` and the corresponding authored
 
 ## Beta data
 
-Development saves to `.data/beta-signups.sqlite`, a real private local database, excluded from version control and deployments. Production uses a Supabase RPC with an atomic insert, duplicate-safe consent state and shared rate limits. Production returns an honest unavailable response until the migration and credentials exist.
+Development saves to `.data/beta-signups.sqlite`, a real private local database, excluded from version control and deployments. Production uses a Supabase RPC with an atomic insert, duplicate-safe consent state and shared rate limits. While the required production configuration is absent, the website shows a prelaunch panel without personal-data fields. The API continues to fail closed until the migration and credentials exist. Rebuild after connecting production configuration so the static pages can show the form.
 
 See `BETA-OPERATIONS.md` and `supabase/migrations/202609200001_beta_signups.sql`. Copy `.env.example` values into secure environment configuration, never into browser variables. A verified public contact address and privacy/retention ownership are still needed before live collection.
 

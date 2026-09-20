@@ -25,7 +25,7 @@
 
 ## Participation
 
-- [Beta notifications](https://www.8ntic.com/beta): Register interest in future beta communications. Registration does not promise immediate product access.
+- [Beta notifications](https://www.8ntic.com/beta): Check beta notification availability and signup information. Registration, when open, does not promise immediate product access.
 - [Privacy](https://www.8ntic.com/privacy): Information about how notification signup data is handled.
 - [Sitemap](https://www.8ntic.com/sitemap.xml)
 

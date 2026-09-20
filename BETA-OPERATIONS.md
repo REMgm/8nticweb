@@ -2,6 +2,14 @@
 
 Implemented locally: accessible name/email form, versioned explicit opt-in, server validation, database-confirmed generic response, safe duplicates, durable rate counters, eligible-only CSV export. **No remote database has been provisioned or migrated. No welcome email or mailing workflow is implemented.** The existing Supabase project still needs its ownership and access confirmed before this migration is applied.
 
+## Public availability and recovery
+
+The server-rendered `BetaSignup` wrapper displays a prelaunch panel without personal-data inputs when the existing required production configuration is incomplete. `isBetaSignupAvailable` checks the Supabase URL and server key, rate-limit secret and trusted-proxy configuration. It passes only an availability boolean to the presentation layer, never credential values. This is a configuration check, not a claim that a remote database has been health-checked. The API retains its independent validation and fail-closed behavior.
+
+The homepage and beta page are statically generated, so rebuild and redeploy after configuration changes to update their public availability state. Before enabling collection, apply and verify the migration using the acceptance checks below. A later database outage still produces the existing retryable error without claiming success.
+
+When the form is available, its fieldset is disabled until client hydration and during submission. Without JavaScript, an explanation links to QIP and publications; the user cannot type details into an unusable form. The native form action remains POST as an additional protection against putting personal details in a URL. Rate-limit responses give an approximate wait derived from `Retry-After`, and entered values are retained.
+
 ## Local development
 
 Run the website with Node 25 and `npm run dev`. With neither Supabase environment value set, development uses Node's built-in SQLite at `.data/beta-signups.sqlite`. This is a real, durable local database; a completed request survives server restarts. It is not the production database and must not be treated as a centrally shared subscriber list. The form does not fake success. The web server uses this fixed path to keep production build file tracing confined to `.data`. Keep that directory and exports out of version control.

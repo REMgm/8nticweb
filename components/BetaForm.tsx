@@ -1,7 +1,8 @@
 "use client";
 
-import { useId, useRef, useState, type FormEvent } from "react";
+import { useEffect, useId, useRef, useState, type FormEvent } from "react";
 import { CONSENT_TEXT, CONSENT_VERSION, RECEIVED_MESSAGE, UNAVAILABLE_MESSAGE, validateSignup, type FieldErrors } from "../lib/beta/validation";
+import { MascotMark } from "./Brand";
 
 export function BetaForm() {
   const id = useId();
@@ -10,6 +11,9 @@ export function BetaForm() {
   const [received, setReceived] = useState(false);
   const [errors, setErrors] = useState<FieldErrors>({});
   const [message, setMessage] = useState("");
+  const [hydrated, setHydrated] = useState(false);
+
+  useEffect(() => { setHydrated(true); }, []);
 
   function showErrors(next: FieldErrors, text: string) {
     setErrors(next);
@@ -36,6 +40,12 @@ export function BetaForm() {
       if (response.status === 200 && body.message === RECEIVED_MESSAGE) {
         setReceived(true);
         requestAnimationFrame(() => summary.current?.focus());
+      } else if (response.status === 429) {
+        const retryAfter = Number(response.headers.get("Retry-After"));
+        const minutes = Number.isFinite(retryAfter) && retryAfter > 0 ? Math.max(1, Math.ceil(retryAfter / 60)) : null;
+        showErrors({}, minutes
+          ? `Please wait about ${minutes} ${minutes === 1 ? "minute" : "minutes"} before trying again. Your details are still here.`
+          : "Please wait a little before trying again. Your details are still here.");
       } else {
         showErrors(body.errors || {}, body.message || UNAVAILABLE_MESSAGE);
       }
@@ -45,7 +55,7 @@ export function BetaForm() {
 
   if (received) return (
     <div className="beta-form beta-success" ref={summary} tabIndex={-1} role="status">
-      <span className="success-orbit" aria-hidden="true">↗</span>
+      <MascotMark />
       <h3>Your request has arrived.</h3>
       <p>{RECEIVED_MESSAGE}</p>
       <p className="form-note">This is a request for updates. It does not grant beta access.</p>
@@ -59,6 +69,9 @@ export function BetaForm() {
         {errors.form && <p>{errors.form}</p>}
         {errors.consentVersion && <p>{errors.consentVersion}</p>}
       </div>
+      {!hydrated && <div className="beta-nojs"><p>Turn on JavaScript to send this form. You can still <a href="/qip">explore QIP</a> and <a href="/publications">read our publications</a> without it.</p></div>}
+      <fieldset className="beta-fieldset" disabled={!hydrated || pending}>
+      <legend className="sr-only">Your beta and research update preferences</legend>
       <div className="form-fields">
         <div className="form-field">
           <label className="field-label" htmlFor={`${id}-name`}>Your name</label>
@@ -80,11 +93,11 @@ export function BetaForm() {
         <span>{CONSENT_TEXT}</span>
       </label>
       {errors.consent && <p id={`${id}-consent-error`} className="form-error">{errors.consent}</p>}
-      <button type="submit" className="button button-primary beta-submit" disabled={pending}>
+      <button type="submit" className="button button-primary beta-submit" disabled={!hydrated || pending}>
         {pending ? "Sending your request…" : "Keep me in the loop"}<span aria-hidden="true">↗</span>
       </button>
+      </fieldset>
       <p id={`${id}-privacy`} className="form-note">Future emails will include an unsubscribe link. Your details are used for updates, never model training. <a href="/privacy">Privacy notice</a></p>
-      <noscript><p className="form-note">JavaScript is needed to send this form. You can still explore every project and publication.</p></noscript>
     </form>
   );
 }

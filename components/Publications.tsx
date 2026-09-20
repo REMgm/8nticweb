@@ -40,7 +40,7 @@ export function Publications({ showHeading = true }: PublicationsProps) {
               <h3><Link href={`/publications/${publication.slug}`}>{publication.title}</Link></h3>
               <p className="pub-card-description">{publication.description}</p>
               <details className="pub-preview">
-                <summary><span>{publication.type === "interactive-essay" ? "A few words to begin" : "Inside the idea"}</span><Plus size={18} aria-hidden="true" /></summary>
+                <summary><span className="pub-preview-closed">Read a preview</span><span className="pub-preview-open">Close preview</span><Plus size={18} aria-hidden="true" /></summary>
                 <div className="pub-preview-copy">
                   {publication.preview.map((paragraph) => <p key={paragraph}>{paragraph}</p>)}
                   {publication.type === "interactive-essay" && <small>Author’s historical illustration. The full essay includes assumptions and source context.</small>}

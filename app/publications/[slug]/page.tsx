@@ -55,19 +55,19 @@ function TokenGapArticle() {
   return (
     <>
       <aside className="pub-editorial-note" aria-label="About the figures in this essay"><span>READING NOTE</span><p>This essay preserves the author’s historical model comparisons and argument. Numerical figures are illustrative inputs from the supplied draft, whose sources were retrieved on 15 September 2026, not current benchmark results. Human token equivalents are not a measured ceiling on thought, and hardware trends are not measurements of intelligence.</p></aside>
-      <nav className="pub-article-nav" aria-label="In this essay"><span>IN THIS ESSAY</span><a href="#the-speed">The speed</a><a href="#token-race-title">The comparison</a><a href="#tokens-per-insight">Tokens per insight</a><a href="#compounding-curves">Compounding curves</a><a href="#token-sources">Sources</a></nav>
-      <div className="pub-prose" id={tokenGapSections[0].id}>{tokenGapSections[0].paragraphs.map((paragraph, index) => <p className={index === 0 ? "pub-lede" : undefined} key={paragraph}>{paragraph}</p>)}</div>
+      <nav className="pub-article-nav" id="pub-contents" tabIndex={-1} aria-label="In this essay"><span>IN THIS ESSAY</span><a href="#the-speed">The speed</a><a href="#token-race-title">The comparison</a><a href="#tokens-per-insight">Tokens per insight</a><a href="#compounding-curves">Compounding curves</a><a href="#token-sources">Sources</a></nav>
+      <div className="pub-prose" id={tokenGapSections[0].id} tabIndex={-1}>{tokenGapSections[0].paragraphs.map((paragraph, index) => <p className={index === 0 ? "pub-lede" : undefined} key={paragraph}>{paragraph}</p>)}</div>
       <TokenRace />
       {tokenGapSections.slice(1).map((section) => (
-        <section className="pub-prose" id={section.id} key={section.id}>
+        <section className="pub-prose" id={section.id} tabIndex={-1} key={section.id}>
           <h2>{section.title}</h2>
           {section.paragraphs.map((paragraph) => <p key={paragraph} className={paragraph.startsWith("Which means") ? "pub-pull-line" : undefined}>{paragraph}</p>)}
         </section>
       ))}
       <GrowthFigure />
       <div className="pub-prose pub-closing"><p>{tokenGapClosing}</p></div>
-      <section className="pub-sources" id="token-sources" aria-labelledby="token-source-heading">
-        <div><p className="pub-eyebrow">KEEP THE CONTEXT VISIBLE</p><h2 id="token-source-heading">Sources & assumptions.</h2><p>The supplied draft names these sources and records a retrieval date of 15 September 2026. Links below provide attribution and context; they do not independently validate every historical input in the essay.</p></div>
+      <section className="pub-sources" id="token-sources" tabIndex={-1} aria-labelledby="token-source-heading">
+        <div><p className="pub-eyebrow">KEEP THE CONTEXT VISIBLE</p><h2 id="token-source-heading">Sources & assumptions.</h2><p>The supplied draft names these sources and records a retrieval date of 15 September 2026. Links below provide attribution and context; they do not independently validate every historical input in the essay.</p><a className="pub-return-link" href="#pub-contents"><ArrowLeft size={15} aria-hidden="true" />Back to the essay contents</a></div>
         <ol>{tokenGapSources.map((source) => <li key={source.url}><a href={source.url} target="_blank" rel="noopener noreferrer">{source.title}<ArrowUpRight size={16} aria-hidden="true" /><span className="token-sr-only">, opens in a new tab</span></a><p>{source.description}</p></li>)}</ol>
       </section>
     </>
@@ -103,14 +103,14 @@ export default async function PublicationPage({ params }: PublicationPageProps) 
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: jsonLdStringify(breadcrumbJsonLd([{ name: "Home", path: "/" }, { name: "Publications", path: "/publications" }, { name: publication.title, path: `/publications/${publication.slug}` }])) }} />
       <Link href="/publications" className="pub-back-link"><ArrowLeft size={16} aria-hidden="true" />All publications</Link>
       <article>
-        <header className="pub-article-header">
+        <header className="pub-article-header" id="pub-article-top" tabIndex={-1}>
           <p className="pub-eyebrow">{publicationTypeLabel(publication).toUpperCase()} / BY {publication.author.toUpperCase()}</p>
           <h1>{publication.title}</h1>
           <p className="pub-standfirst">{publication.slug === "the-token-gap" ? "You read this sentence at about four tokens per second. Gemini would have finished the whole article before you reached the comma." : publication.description}</p>
           {publication.date && <time dateTime={publication.date}>{publication.date}</time>}
         </header>
         {publication.slug === "the-token-gap" ? <TokenGapArticle /> : <QipThesisOverview />}
-        <footer className="pub-article-footer"><span>Words by {publication.author}</span><Link href="/publications">More from the Observatory<ArrowUpRight size={17} aria-hidden="true" /></Link></footer>
+        <footer className="pub-article-footer"><span>Words by {publication.author}</span><nav aria-label="Continue reading"><a href="#pub-article-top">Back to top</a><Link href="/publications">All publications<ArrowUpRight size={17} aria-hidden="true" /></Link></nav></footer>
       </article>
     </div>
   );

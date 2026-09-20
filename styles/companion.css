@@ -1,0 +1,35 @@
+.curiosity { z-index: 2; }
+.companion-button .mascot-mark { width: 18px; height: 26px; object-fit: contain; transform-origin: 50% 85%; }
+.companion-button[aria-expanded=true] { background: var(--surface-raised); border-color: var(--accent); }
+.curiosity-panel { position: absolute; right: 0; bottom: calc(100% + 14px); width: min(310px, calc(100vw - 40px)); padding: 12px 20px 16px; border: 1px solid #d8b98555; border-radius: 8px; background: #191b16fa; box-shadow: 0 16px 48px #080a0866; }
+.curiosity-panel-top { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.curiosity-panel-top .icon-button { margin-right: -12px; }
+.curiosity-question { font-family: var(--font-display), Georgia, serif; font-size: 26px; line-height: 1.2; letter-spacing: -.02em; margin: 8px 0 16px; min-height: 2.4em; text-wrap: pretty; }
+.curiosity-destination { color: var(--accent); }
+.curiosity-next { display: flex; color: var(--muted); margin-top: 4px; font-size: 12px; }
+.explorer-pick { display: flex; align-items: center; justify-content: space-between; gap: 16px 32px; padding-top: 18px; }
+.explorer-pick-button { gap: 12px; flex-shrink: 0; }
+.explorer-pick .mascot-mark { width: 22px; height: 32px; object-fit: contain; transform-origin: 50% 85%; }
+.explorer-pick p { font-size: 12px; line-height: 1.65; color: var(--muted); margin: 0; max-width: 320px; }
+.experiment-nojs { display: flex; flex-wrap: wrap; gap: 12px 24px; padding-top: 20px; }
+.experiment-publication { margin-bottom: 0; padding-top: 16px; }
+
+@media (hover: hover) and (prefers-reduced-motion: no-preference) {
+  .companion-button:hover .mascot-mark, .explorer-pick-button:hover .mascot-mark { animation: curious-nod .65s ease-in-out; }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .companion-button[aria-expanded=true] .mascot-mark { animation: curious-nod .65s ease-in-out; }
+  .curiosity-panel:not([hidden]) { animation: arrive .22s ease-out; }
+  .companion-button:active .mascot-mark, .explorer-pick-button:active .mascot-mark { transform: rotate(-9deg) translateY(-2px); }
+}
+@keyframes curious-nod {
+  0%,100% { transform: rotate(0); }
+  35% { transform: rotate(-10deg) translateY(-3px); }
+  65% { transform: rotate(6deg); }
+}
+@media (max-width: 767px) {
+  .explorer-pick { align-items: flex-start; flex-direction: column; gap: 4px; padding-top: 14px; }
+  .explorer-pick p { padding-left: 34px; min-height: 40px; }
+  .companion-button { font-size: 12px; padding: 8px 14px; gap: 10px; }
+  .curiosity-question { font-size: 25px; }
+}

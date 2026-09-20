@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { ArrowCounterClockwise, Pause, Play } from "@phosphor-icons/react";
+import { ArrowCounterClockwise, Pause, Play, Plus } from "@phosphor-icons/react";
 import { tokenRaceDuration, tokenRaceProgress, tokenRaceRunners, tokenRaceTarget } from "@/lib/publications";
 import { useExperience } from "@/components/Experience";
 
@@ -10,6 +10,7 @@ export function TokenRace() {
   const [running, setRunning] = useState(false);
   const [reducedMotion, setReducedMotion] = useState(false);
   const [announcement, setAnnouncement] = useState("");
+  const [pauseReason, setPauseReason] = useState<"hidden" | "offscreen" | null>(null);
   const { motion, cue } = useExperience();
   const motionOff = reducedMotion || !motion;
   const elapsedRef = useRef(0);
@@ -42,11 +43,17 @@ export function TokenRace() {
 
   useEffect(() => {
     const pauseWhenHidden = () => {
-      if (document.hidden) setRunning(false);
+      if (document.hidden) {
+        setRunning(false);
+        if (elapsedRef.current > 0 && elapsedRef.current < tokenRaceDuration) setPauseReason("hidden");
+      }
     };
     document.addEventListener("visibilitychange", pauseWhenHidden);
     const observer = new IntersectionObserver(([entry]) => {
-      if (!entry.isIntersecting) setRunning(false);
+      if (!entry.isIntersecting) {
+        setRunning(false);
+        if (elapsedRef.current > 0 && elapsedRef.current < tokenRaceDuration) setPauseReason("offscreen");
+      }
     });
     if (figureRef.current) observer.observe(figureRef.current);
     return () => {
@@ -73,6 +80,7 @@ export function TokenRace() {
   }, [running, motionOff]);
 
   function togglePlayback() {
+    setPauseReason(null);
     if (motionOff) {
       cue();
       updateTime(tokenRaceDuration);
@@ -92,6 +100,7 @@ export function TokenRace() {
 
   function restart() {
     setRunning(false);
+    setPauseReason(null);
     updateTime(0);
     setAnnouncement("Comparison reset. All lanes are at zero. Choose play to start again.");
   }
@@ -101,18 +110,19 @@ export function TokenRace() {
       <div className="token-race-head">
         <div>
           <p className="pub-eyebrow">AN ILLUSTRATION IN REAL TIME</p>
-          <h2 id="token-race-title">One thousand tokens.<br />The same finish line.</h2>
+          <h2 id="token-race-title" tabIndex={-1}>One thousand tokens.<br />The same finish line.</h2>
         </div>
         <div className="token-clock"><span aria-hidden="true">{elapsed.toFixed(1)}<small>s</small></span><span className="token-sr-only">{elapsed.toFixed(1)} seconds elapsed</span><small>of 22 seconds</small></div>
       </div>
       <p id="token-race-context" className="token-context">Historical, illustrative author assumptions, not live benchmarks. Model output and human token equivalents are different measures. This race compares their assumed pace, not intelligence.</p>
+      <noscript><style>{`.token-controls { display: none !important; }`}</style><p className="token-no-script">The animation needs JavaScript. You can read every rate and finish time in “Read the numbers without the animation” below.</p></noscript>
       <div className="token-controls">
         <button type="button" className="token-play" onClick={togglePlayback} aria-controls="token-lanes">
           {running ? <Pause size={16} weight="fill" aria-hidden="true" /> : <Play size={16} weight="fill" aria-hidden="true" />}
           {motionOff ? "Show 22-second result" : running ? "Pause" : elapsed >= tokenRaceDuration ? "Play again" : elapsed > 0 ? "Resume" : "Play the comparison"}
         </button>
         <button type="button" className="token-restart" onClick={restart} aria-controls="token-lanes"><ArrowCounterClockwise size={17} aria-hidden="true" />Restart</button>
-        <span className="token-control-note">{motionOff ? "Motion off. A static result." : "You set the pace. Pause whenever you like."}</span>
+        <span className="token-control-note">{motionOff ? "Motion off. A static result." : pauseReason === "hidden" ? "Paused while this tab was hidden. Resume when you’re ready." : pauseReason === "offscreen" ? "Paused while you were reading elsewhere. Resume when you’re ready." : running ? "Playing at real elapsed time. Pause whenever you like." : elapsed > 0 && elapsed < tokenRaceDuration ? "Paused. Your place in the comparison is kept." : "You set the pace. Pause whenever you like."}</span>
       </div>
       <div id="token-lanes" className="token-lanes">
         {tokenRaceRunners.map((runner) => {
@@ -132,7 +142,7 @@ export function TokenRace() {
       <p className="token-verdict">{elapsed >= tokenRaceDuration ? "Twenty-two seconds later: every model has finished. The speaking lane has reached 88 tokens." : "The first lane finishes in about two seconds. At the assumed speaking pace, the same distance takes 250."}</p>
       <div className="token-sr-only" role="status" aria-live="polite" aria-atomic="true">{announcement}</div>
       <details className="token-static-data">
-        <summary>Read the numbers without the animation</summary>
+        <summary><span>Read the numbers without the animation</span><Plus size={18} aria-hidden="true" /></summary>
         <div className="token-data-rows">
           {tokenRaceRunners.map((runner) => <p key={runner.id}><strong>{runner.name}</strong><span>{runner.rate} tokens/s · 1,000 tokens in {(tokenRaceTarget / runner.rate).toFixed(1)} seconds</span></p>)}
         </div>
