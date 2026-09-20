@@ -1,0 +1,11 @@
+verification
+test-results
+playwright-report
+.data
+tests
+public/assets/approved-identity.png
+public/assets/mascot-study.png
+public/assets/mascot-study.webp
+public/assets/hero-source.png
+*.md
+*.mmd

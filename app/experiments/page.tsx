@@ -1,0 +1,4 @@
+import { Experiments } from "@/components/Experiments";
+import { pageMetadata } from "@/lib/seo";
+export const metadata=pageMetadata({title:"8NTIC Experiments",description:"Explore Recorder and QIP Adapter, small experiments in capturing what matters and connecting useful context. Part of the 8NTIC Experiments program.",path:"/experiments"});
+export default function ExperimentsPage(){return <div className="page-shell shell"><header className="page-heading"><p className="eyebrow">8NTIC Experiments</p><h1>Small experiments.<br/><em>Open questions.</em></h1><p>A place to build things, try ideas and discover what deserves more attention. Each experiment begins with a question.</p></header><Experiments/><section className="quiet-callout"><h2>Always exploring.</h2><p>Experiments are works in progress. Their usefulness comes from what we learn, including what does not work.</p></section></div>}

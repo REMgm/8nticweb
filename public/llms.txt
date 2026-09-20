@@ -1,0 +1,32 @@
+# 8NTIC
+
+> 8NTIC is Remco Vroom’s independent research home for the Quantum Intelligence Protocol (QIP), custom-model research, experiments and publications. Its theme is “Always exploring.”
+
+## Core pages
+
+- [Home](https://www.8ntic.com/): Overview of the research, projects and publications.
+- [QIP](https://www.8ntic.com/qip): Quantum Intelligence Protocol, the flagship research project exploring governed agent autonomy, persistent memory and learning across execution cycles.
+- [Research](https://www.8ntic.com/research): Research questions, including custom models trained on business knowledge, language and decisions. This is research in progress.
+- [Experiments](https://www.8ntic.com/experiments): Practical explorations in the 8NTIC Experiments program.
+- [Publications](https://www.8ntic.com/publications): Essays and research publications by Remco Vroom.
+- [About](https://www.8ntic.com/about): Researcher and purpose.
+
+## Publications
+
+- [The Token Gap](https://www.8ntic.com/publications/the-token-gap): An essay on AI throughput, human judgment and reasoning efficiency.
+- [QIP thesis introduction](https://www.8ntic.com/publications/qip-thesis): Introduction and link to the original Quantum Intelligence Protocol thesis.
+- [Original QIP thesis](https://rem8ntic.substack.com/p/quantum-intelligence-protocol): Original external publication on Substack.
+- [Publications RSS feed](https://www.8ntic.com/feed.xml)
+
+## Experimental destinations
+
+- [Recorder](https://recorder.8ntic.com): Experimental application. Access conditions are determined by that application.
+- [QIP Adapter](https://qipadapter.8ntic.com): Experimental application with restricted access.
+
+## Participation
+
+- [Beta notifications](https://www.8ntic.com/beta): Register interest in future beta communications. Registration does not promise immediate product access.
+- [Privacy](https://www.8ntic.com/privacy): Information about how notification signup data is handled.
+- [Sitemap](https://www.8ntic.com/sitemap.xml)
+
+The linked pages are the source of truth. Research hypotheses and experimental status should not be interpreted as verified product capabilities or certification claims.

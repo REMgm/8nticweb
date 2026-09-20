@@ -1,0 +1,3 @@
+import Link from "next/link";
+import { Brand } from "./Brand";
+export function Footer(){return <footer className="site-footer shell"><div className="footer-top"><div><Brand large/><p>Always exploring.</p></div><nav aria-label="Footer navigation"><Link href="/qip">QIP</Link><Link href="/research">Research</Link><Link href="/experiments">Experiments</Link><Link href="/publications">Publications</Link><Link href="/about">About</Link><Link href="/beta">Beta updates</Link></nav></div><div className="footer-bottom"><span>8NTIC, an independent exploration by Remco Vroom.</span><div><Link href="/privacy">Privacy</Link><a href="/feed.xml">RSS</a><a href="/llms.txt">For agents</a></div></div></footer>}

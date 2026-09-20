@@ -1,5 +1,16 @@
-node_modules
-dist
-.vercel
-.env
-.env.local
+node_modules/
+.next/
+.data/
+.env*
+!.env.example
+.vercel/
+test-results/
+playwright-report/
+*.tsbuildinfo
+.DS_Store
+
+# Local research notes and generated verification artifacts
+8NTIC-*.md
+8NTIC-*.mmd
+IMPLEMENTATION.md
+verification/
