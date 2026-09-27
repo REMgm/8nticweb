@@ -11,9 +11,8 @@ html[data-motion=off] *,html[data-visible=no] *{animation-play-state:paused!impo
 @media(prefers-reduced-transparency:reduce){.site-header,.mobile-nav{background:var(--bg);backdrop-filter:none}.companion-button{background:var(--surface);backdrop-filter:none}}
 .nojs-nav{display:flex;gap:20px;flex-wrap:wrap;padding-block:15px}.nojs-nav a{min-height:44px;display:flex;align-items:center}.beta-success{border:1px solid #a8b29155;padding:28px;border-radius:6px;background:#a8b29109}.beta-success h3{margin:20px 0;font-size:32px}.success-orbit{font-size:30px;color:var(--accent)}
 @media(max-width:767px){.hero-art{inset:285px 0 0}.hero-art img{object-position:80% 50%}.site-header{height:calc(70px + env(safe-area-inset-top))}.site-footer{padding-bottom:max(26px,env(safe-area-inset-bottom))}.mobile-nav{padding-inline:max(24px,env(safe-area-inset-left)) max(24px,env(safe-area-inset-right))}}
-@media(prefers-reduced-motion:no-preference){.pub-preview[open] .pub-preview-copy{animation:arrive .3s ease-out both}.pub-card{transition:transform .3s,border-color .3s}.pub-card:focus-within{border-color:#d8b98577}.pub-card-art .pub-art-trails{animation:trail-drift 8s ease-in-out infinite}.pub-card:has(details[open]) .pub-card-art .pub-art-trails{animation-duration:4s}}
-@media(hover:hover) and (prefers-reduced-motion:no-preference){.pub-card:hover{transform:translateY(-4px);border-color:#d8b98555}}
-@keyframes trail-drift{0%,100%{transform:skewY(-14deg) translateX(8%);opacity:.5}50%{transform:skewY(-14deg) translateX(-8%);opacity:1}}
+@media(prefers-reduced-motion:no-preference){.pub-preview[open] .pub-preview-copy{animation:arrive .3s ease-out both}.pub-card{transition:transform .3s,border-color .3s}.pub-card:focus-within{border-color:#d8b98577}.pub-cover-image{transition:transform 1.2s cubic-bezier(.2,.6,.3,1)}}
+@media(hover:hover) and (prefers-reduced-motion:no-preference){html:not([data-motion=off]) .pub-card:hover{transform:translateY(-4px);border-color:#d8b98555}html:not([data-motion=off]) .pub-card:hover .pub-cover-image{transform:scale(1.035)}}
 .beta-form .consent{min-height:44px}
 
 /* Reading rhythm and unavailable-service states. */

@@ -1,10 +1,11 @@
+import Image from "next/image";
 import Link from "next/link";
 import { ArrowUpRight, Plus } from "@phosphor-icons/react/dist/ssr";
 import { publications, publicationTypeLabel } from "@/lib/publications";
 
-type PublicationsProps = { showHeading?: boolean };
+type PublicationsProps = { showHeading?: boolean; eagerCovers?: boolean };
 
-export function Publications({ showHeading = true }: PublicationsProps) {
+export function Publications({ showHeading = true, eagerCovers = false }: PublicationsProps) {
   return (
     <section className={`pub-section${showHeading ? "" : " pub-section-embedded"}`} aria-label="Publications">
       {showHeading && (
@@ -17,21 +18,27 @@ export function Publications({ showHeading = true }: PublicationsProps) {
         </div>
       )}
       <div className="pub-grid">
-        {publications.map((publication) => (
+        {publications.map((publication, index) => (
           <article className={`pub-card pub-card-${publication.slug}`} key={publication.slug}>
             <div className="pub-card-art" aria-hidden="true">
+              <Image
+                className="pub-cover-image"
+                src={publication.slug === "the-token-gap" ? "/assets/publication-token-gap.webp" : "/assets/publication-qip.webp"}
+                alt=""
+                fill
+                sizes="(max-width: 660px) calc(100vw - 40px), (max-width: 767px) calc(50vw - 34px), (max-width: 1150px) calc(50vw - 54px), (max-width: 1392px) calc(50vw - 70px), 626px"
+                loading={eagerCovers && index < 2 ? "eager" : "lazy"}
+              />
               {publication.slug === "the-token-gap" ? (
                 <>
                   <span className="pub-art-index">A DIFFERENCE OF PACE</span>
                   <span className="pub-art-word">tokens</span>
                   <span className="pub-art-word pub-art-word-human">thought.</span>
-                  <div className="pub-art-trails"><i /><i /><i /><i /><i /></div>
                 </>
               ) : (
                 <>
                   <span className="pub-art-index">LEARNING THAT CARRIES FORWARD</span>
                   <span className="pub-art-qip">QIP<span>intelligence,<br />in continuity.</span></span>
-                  <div className="pub-art-grain" />
                 </>
               )}
             </div>

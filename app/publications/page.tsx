@@ -20,7 +20,7 @@ export default function PublicationsPage() {
         <h1>Ideas worth<br /><em>staying with.</em></h1>
         <p>Essays and research on the possibilities ahead, and the human judgment that shapes them. Open a preview, follow a question, take your time.</p>
       </div>
-      <Publications showHeading={false} />
+      <Publications showHeading={false} eagerCovers />
     </div>
   );
 }
