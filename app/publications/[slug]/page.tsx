@@ -1,9 +1,11 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ArrowLeft, ArrowUpRight } from "@phosphor-icons/react/dist/ssr";
 import { TokenRace } from "@/components/TokenRace";
-import { getPublicationBySlug, publications, publicationTypeLabel, tokenGapClosing, tokenGapSections, tokenGapSources } from "@/lib/publications";
+import { AttentionExplorer } from "@/components/AttentionExplorer";
+import { getPublicationBySlug, oneIdeaClosing, oneIdeaMedia, oneIdeaSections, oneIdeaSources, publications, publicationTypeLabel, tokenGapClosing, tokenGapSections, tokenGapSources, type OneIdeaFigure } from "@/lib/publications";
 import { articleJsonLd, breadcrumbJsonLd, jsonLdStringify, publicationMetadata } from "@/lib/seo";
 
 type PublicationPageProps = { params: Promise<{ slug: string }> };
@@ -74,6 +76,51 @@ function TokenGapArticle() {
   );
 }
 
+function OneIdeaFigureBlock({ figure, priority = false }: { figure: OneIdeaFigure; priority?: boolean }) {
+  return (
+    <figure className="pub-image-figure">
+      <Image src={figure.src} alt={figure.alt} width={2200} height={1228} sizes="(max-width: 1100px) 100vw, 1100px" priority={priority} />
+      <figcaption>{figure.caption}</figcaption>
+    </figure>
+  );
+}
+
+function OneIdeaArticle() {
+  const [opening, ...sections] = oneIdeaSections;
+  return (
+    <>
+      <figure className="pub-film" aria-labelledby="pub-film-caption">
+        <video controls playsInline preload="metadata" poster={oneIdeaMedia.poster} aria-describedby="pub-film-caption">
+          <source src={oneIdeaMedia.film} type="video/mp4" />
+          <track kind="captions" src={oneIdeaMedia.captions} srcLang="en" label="English" default />
+          Your browser does not play embedded video. <a href={oneIdeaMedia.film}>Download the film</a>.
+        </video>
+        <figcaption id="pub-film-caption"><span>FILM · 30 SECONDS · SOUND ON</span>Uncovering How AI Works, episode one: the Transformer. Made for 8NTIC with Higgsfield.</figcaption>
+      </figure>
+      <aside className="pub-editorial-note" aria-label="About this essay"><span>READING NOTE</span><p>A plain-language explanation of the 2017 Transformer paper. The attention explorer uses hand-set weights to illustrate the idea; it is not the output of a trained model. Film and illustrations were generated for 8NTIC with Higgsfield.</p></aside>
+      <nav className="pub-article-nav" id="pub-contents" tabIndex={-1} aria-label="In this essay"><span>IN THIS ESSAY</span><a href="#the-paper">The paper</a><a href="#word-by-word">Before</a><a href="#attention">The one idea</a><a href="#attn-title">Try it</a><a href="#parallel">The real breakthrough</a><a href="#everyday">Everyday AI</a><a href="#trade-off">The trade-off</a><a href="#one-idea-sources">Sources</a></nav>
+      <div className="pub-prose" id={opening.id} tabIndex={-1}>{opening.paragraphs.map((paragraph, index) => <p className={index === 0 ? "pub-lede" : undefined} key={paragraph}>{paragraph}</p>)}</div>
+      {sections.map((section) => (
+        <div key={section.id}>
+          <section className="pub-prose" id={section.id} tabIndex={-1}>
+            {section.title && <h2>{section.title}</h2>}
+            {section.paragraphs.map((paragraph) => <p key={paragraph}>{paragraph}</p>)}
+            {section.pullLine && <p className="pub-pull-line">{section.pullLine}</p>}
+          </section>
+          {section.id === "attention" && <AttentionExplorer />}
+          {section.figure && <OneIdeaFigureBlock figure={section.figure} />}
+        </div>
+      ))}
+      <div className="pub-prose pub-closing">{oneIdeaClosing.map((paragraph) => <p key={paragraph}>{paragraph}</p>)}</div>
+      <section className="pub-sources" id="one-idea-sources" tabIndex={-1} aria-labelledby="one-idea-source-heading">
+        <div><p className="pub-eyebrow">KEEP THE CONTEXT VISIBLE</p><h2 id="one-idea-source-heading">Sources.</h2><p>Primary papers first, then the announcements and accounts behind the history in this essay.</p><a className="pub-return-link" href="#pub-contents"><ArrowLeft size={15} aria-hidden="true" />Back to the essay contents</a></div>
+        <ol>{oneIdeaSources.map((source) => <li key={source.url}><a href={source.url} target="_blank" rel="noopener noreferrer">{source.title}<ArrowUpRight size={16} aria-hidden="true" /><span className="token-sr-only">, opens in a new tab</span></a><p>{source.description}</p></li>)}</ol>
+      </section>
+      <aside className="pub-related"><p className="pub-eyebrow">CONTINUE EXPLORING</p><h2>When output accelerates,<br /><em>what deserves our attention?</em></h2><Link href="/publications/the-token-gap">Read The Token Gap<ArrowUpRight size={18} aria-hidden="true" /></Link></aside>
+    </>
+  );
+}
+
 function QipThesisOverview() {
   const publication = getPublicationBySlug("qip-thesis")!;
   return (
@@ -106,10 +153,10 @@ export default async function PublicationPage({ params }: PublicationPageProps) 
         <header className="pub-article-header" id="pub-article-top" tabIndex={-1}>
           <p className="pub-eyebrow">{publicationTypeLabel(publication).toUpperCase()} / BY {publication.author.toUpperCase()}</p>
           <h1>{publication.title}</h1>
-          <p className="pub-standfirst">{publication.slug === "the-token-gap" ? "You read this sentence at about four tokens per second. Gemini would have finished the whole article before you reached the comma." : publication.description}</p>
+          <p className="pub-standfirst">{publication.slug === "the-token-gap" ? "You read this sentence at about four tokens per second. Gemini would have finished the whole article before you reached the comma." : publication.slug === "the-one-idea" ? "Transformer: the one idea that now powers the AI you use every day. Eight authors, one paper, and a single design decision. Let every word look at every other word, all at once." : publication.description}</p>
           {publication.date && <time dateTime={publication.date}>{publication.date}</time>}
         </header>
-        {publication.slug === "the-token-gap" ? <TokenGapArticle /> : <QipThesisOverview />}
+        {publication.slug === "the-token-gap" ? <TokenGapArticle /> : publication.slug === "the-one-idea" ? <OneIdeaArticle /> : <QipThesisOverview />}
         <footer className="pub-article-footer"><span>Words by {publication.author}</span><nav aria-label="Continue reading"><a href="#pub-article-top">Back to top</a><Link href="/publications">All publications<ArrowUpRight size={17} aria-hidden="true" /></Link></nav></footer>
       </article>
     </div>
