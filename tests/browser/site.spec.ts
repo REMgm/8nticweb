@@ -18,8 +18,8 @@ test('interactive QIP, publications, sound and motion',async({page})=>{
   await page.getByRole('button',{name:'Pause ambient motion'}).click();await expect(page.locator('html')).toHaveAttribute('data-motion','off');
   await page.getByRole('button',{name:'Use memory',exact:true}).click();await expect(page.getByRole('heading',{name:'Memory informs the work'})).toBeVisible();
   const recorder=page.getByRole('button',{name:/Capture & reflection Recorder/});await recorder.click();await expect(recorder).toHaveAttribute('aria-expanded','true');await expect(page.getByRole('link',{name:/Open Recorder/})).toHaveAttribute('href','https://recorder.8ntic.com');
-  const preview=page.locator('.pub-preview').first();await preview.locator('summary').click();await expect(preview).toHaveAttribute('open','');
-  await page.getByRole('link',{name:'Read the full essay',exact:true}).click();await expect(page).toHaveURL(/the-token-gap$/);await expect(page.getByRole('heading',{level:1})).toHaveText('The Token Gap');
+  const tokenCard=page.locator('.pub-card-the-token-gap');const preview=tokenCard.locator('.pub-preview');await preview.locator('summary').click();await expect(preview).toHaveAttribute('open','');
+  await tokenCard.getByRole('link',{name:'Read the full essay',exact:true}).click();await expect(page).toHaveURL(/the-token-gap$/);await expect(page.getByRole('heading',{level:1})).toHaveText('The Token Gap');
   const result=page.getByRole('button',{name:'Show 22-second result'});await result.click();await expect(page.locator('.token-verdict')).toContainText('88 tokens');
   expect(errors).toEqual([]);
 });

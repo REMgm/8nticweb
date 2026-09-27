@@ -45,6 +45,8 @@ export type PublicationSeo = {
   source: { title: string; url: string } | null;
   date?: string;
   updatedAt?: string;
+  image?: string;
+  imageAlt?: string;
 };
 
 // One registry powers the publication pages, metadata, sitemap and feed.
@@ -154,14 +156,17 @@ export function publicationMetadata(publication: PublicationSeo): Metadata {
     description: publication.description,
     path: `/publications/${publication.slug}`,
   });
-  if (publication.type === "interactive-essay") {
-    metadata.openGraph = {
-      ...metadata.openGraph,
-      type: "article",
-      authors: [publication.author === "Remco Vroom" ? absoluteUrl("/about") : publication.author],
-      ...(publication.date ? { publishedTime: publication.date } : {}),
-      ...(publication.updatedAt ? { modifiedTime: publication.updatedAt } : {}),
-    };
+  metadata.openGraph = {
+    ...metadata.openGraph,
+    type: "article",
+    authors: [publication.author === "Remco Vroom" ? absoluteUrl("/about") : publication.author],
+    ...(publication.date ? { publishedTime: publication.date } : {}),
+    ...(publication.updatedAt ? { modifiedTime: publication.updatedAt } : {}),
+  };
+  if (publication.image) {
+    const image = { url: absoluteUrl(publication.image), alt: publication.imageAlt || publication.title };
+    metadata.openGraph = { ...metadata.openGraph, images: [image] };
+    metadata.twitter = { ...metadata.twitter, images: [image] };
   }
   return metadata;
 }
@@ -228,20 +233,9 @@ export function articleJsonLd(publication: PublicationSeo) {
     "@type": "Person",
     name: publication.author,
     ...(publication.author === "Remco Vroom"
-      ? { "@id": absoluteUrl("/about#remco-vroom") }
+      ? { "@id": absoluteUrl("/about#remco-vroom"), url: absoluteUrl("/about") }
       : {}),
   };
-  if (publication.type === "research-thesis") {
-    return {
-      ...pageJsonLd({ title: publication.title, description: publication.description, path }),
-      about: {
-        "@type": "CreativeWork",
-        name: "Quantum Intelligence Protocol",
-        url: publication.source?.url,
-        author,
-      },
-    };
-  }
   return {
     "@context": "https://schema.org",
     "@type": "Article",
@@ -250,7 +244,8 @@ export function articleJsonLd(publication: PublicationSeo) {
     mainEntityOfPage: absoluteUrl(path),
     headline: publication.title,
     description: publication.description,
-    image: socialImage.url,
+    image: publication.image ? absoluteUrl(publication.image) : socialImage.url,
+    ...(publication.source ? { isBasedOn: { "@type": "CreativeWork", name: publication.source.title, url: publication.source.url } } : {}),
     author,
     publisher: { "@id": absoluteUrl("/#organization") },
     inLanguage: "en",

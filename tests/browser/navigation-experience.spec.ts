@@ -21,7 +21,7 @@ test('mobile navigation closes predictably for keyboard, outside pointer and des
   await navigation.getByRole('link', { name: 'Get beta updates', exact: true }).focus();
   await page.keyboard.press(nextFocusable);
   await expect(navigation).toBeHidden();
-  await expect(page.getByRole('link', { name: /Read the thesis/ })).toBeFocused();
+  await expect(page.getByRole('link', { name: /Read the full thesis/ })).toBeFocused();
 
   await toggle.click();
   await page.mouse.click(5, 720);

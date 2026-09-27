@@ -95,16 +95,13 @@ test("research and publication schema reflect author, source and actual content 
   for (const publication of PUBLICATION_SEO) {
     const schema = articleJsonLd(publication);
     assert.equal(schema.url, absoluteUrl(`/publications/${publication.slug}`));
-    if (publication.type === "research-thesis") {
-      assert.equal(schema["@type"], "WebPage");
-      assert.ok("about" in schema);
-      if ("about" in schema) assert.equal(schema.about.url, publication.source?.url);
-    } else {
-      assert.equal(schema["@type"], "Article");
-      assert.ok("author" in schema);
-      if ("author" in schema) assert.equal(schema.author.name, publication.author);
-      assert.equal("datePublished" in schema, Boolean(publication.date));
-    }
+    assert.equal(schema["@type"], "Article");
+    assert.equal(schema.author.name, publication.author);
+    assert.equal("datePublished" in schema, Boolean(publication.date));
+    assert.equal("dateModified" in schema, Boolean(publication.updatedAt));
+    if (publication.source) assert.equal(schema.isBasedOn?.url, publication.source.url);
+    if (publication.image) assert.equal(schema.image, absoluteUrl(publication.image));
+    assert.equal((publicationMetadata(publication).openGraph as { type: string }).type, "article");
   }
   const encoded = JSON.stringify([siteJsonLd, qipJsonLd]);
   for (const unsupported of ["AggregateRating", "SearchAction", "SOC 2", "ISO 27001"]) assert.equal(encoded.includes(unsupported), false);

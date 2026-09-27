@@ -19,7 +19,7 @@ export default function Home(){const signupAvailable=isBetaSignupAvailable();ret
         <p>Every new task. A little less starting over. QIP is our central research project: a way for people and agents to work with shared context, clear boundaries and lessons that last.</p>
         <p>QIP has been in active development for six months, with continuous improvements. We’re working towards open-sourcing the protocol within the next six months.</p>
       </div>
-      <div className="intro-bottom"><span className="caption">Quantum Intelligence Protocol</span><a className="text-link" href="https://rem8ntic.substack.com/p/quantum-intelligence-protocol" target="_blank" rel="noopener noreferrer">Read the thesis <ArrowUpRightIcon size={20}/><span className="sr-only">, opens a new tab</span></a></div>
+      <div className="intro-bottom"><span className="caption">Quantum Intelligence Protocol</span><Link className="text-link" href="/publications/qip-thesis">Read the full thesis <ArrowUpRightIcon size={20}/></Link></div>
     </Reveal>
     <div id="the-loop"><QipLoop/></div>
   </section>

@@ -5,6 +5,7 @@ import { notFound } from "next/navigation";
 import { ArrowLeft, ArrowUpRight } from "@phosphor-icons/react/dist/ssr";
 import { TokenRace } from "@/components/TokenRace";
 import { AttentionExplorer } from "@/components/AttentionExplorer";
+import { QipThesisArticle } from "@/components/QipThesisArticle";
 import { getPublicationBySlug, oneIdeaClosing, oneIdeaMedia, oneIdeaSections, oneIdeaSources, publications, publicationTypeLabel, tokenGapClosing, tokenGapSections, tokenGapSources, type OneIdeaFigure } from "@/lib/publications";
 import { articleJsonLd, breadcrumbJsonLd, jsonLdStringify, publicationMetadata } from "@/lib/seo";
 
@@ -121,25 +122,6 @@ function OneIdeaArticle() {
   );
 }
 
-function QipThesisOverview() {
-  const publication = getPublicationBySlug("qip-thesis")!;
-  return (
-    <>
-      <div className="pub-thesis-feature"><span aria-hidden="true">QIP</span><p>Intelligence,<br /><em>in continuity.</em></p></div>
-      <div className="pub-prose">
-        <p className="pub-lede">What if each interaction could leave the next one better informed?</p>
-        <p>QIP explores how people and agents can work with shared context, clear boundaries and lessons that carry forward. It is a research direction concerned with the relationship between individual contributions and collective capability.</p>
-        <h2>Follow the question.</h2>
-        <p>This page introduces the QIP initiative. The original Quantum Intelligence Protocol thesis is published on Remco Vroom’s Substack, where you can read the author’s argument in its original context.</p>
-        <p>The wider 8NTIC work makes these questions tangible through research and experiments. Here, the emphasis is on what can be learned, what remains uncertain, and which decisions should stay visible to people.</p>
-        <a className="pub-source-button" href={publication.source!.url} target="_blank" rel="noopener noreferrer">Read the original thesis<ArrowUpRight size={18} aria-hidden="true" /><span className="token-sr-only">, opens on Substack in a new tab</span></a>
-        <p className="pub-small-note">An introduction, not a reproduction of the full thesis. Original publication: Remco Vroom on Substack.</p>
-      </div>
-      <aside className="pub-related"><p className="pub-eyebrow">CONTINUE EXPLORING</p><h2>When output accelerates,<br /><em>what deserves our attention?</em></h2><Link href="/publications/the-token-gap">Read The Token Gap<ArrowUpRight size={18} aria-hidden="true" /></Link></aside>
-    </>
-  );
-}
-
 export default async function PublicationPage({ params }: PublicationPageProps) {
   const { slug } = await params;
   const publication = getPublicationBySlug(slug);
@@ -154,9 +136,10 @@ export default async function PublicationPage({ params }: PublicationPageProps) 
           <p className="pub-eyebrow">{publicationTypeLabel(publication).toUpperCase()} / BY {publication.author.toUpperCase()}</p>
           <h1>{publication.title}</h1>
           <p className="pub-standfirst">{publication.slug === "the-token-gap" ? "You read this sentence at about four tokens per second. Gemini would have finished the whole article before you reached the comma." : publication.slug === "the-one-idea" ? "Transformer: the one idea that now powers the AI you use every day. Eight authors, one paper, and a single design decision. Let every word look at every other word, all at once." : publication.description}</p>
-          {publication.date && <time dateTime={publication.date}>{publication.date}</time>}
+          {publication.date && <time dateTime={publication.date}>{publication.slug === "qip-thesis" ? "First published 7 April 2026" : publication.date}</time>}
+          {publication.updatedAt && <span className="pub-edition-date">Web edition updated <time dateTime={publication.updatedAt}>27 September 2026</time></span>}
         </header>
-        {publication.slug === "the-token-gap" ? <TokenGapArticle /> : publication.slug === "the-one-idea" ? <OneIdeaArticle /> : <QipThesisOverview />}
+        {publication.slug === "the-token-gap" ? <TokenGapArticle /> : publication.slug === "the-one-idea" ? <OneIdeaArticle /> : <QipThesisArticle />}
         <footer className="pub-article-footer"><span>Words by {publication.author}</span><nav aria-label="Continue reading"><a href="#pub-article-top">Back to top</a><Link href="/publications">All publications<ArrowUpRight size={17} aria-hidden="true" /></Link></nav></footer>
       </article>
     </div>

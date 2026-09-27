@@ -15,7 +15,7 @@
 
 - [The One Idea](https://www.8ntic.com/publications/the-one-idea): A plain-language essay, film and interactive explorer on the Transformer, the 2017 idea behind today’s AI.
 - [The Token Gap](https://www.8ntic.com/publications/the-token-gap): An essay on AI throughput, human judgment and reasoning efficiency.
-- [QIP thesis introduction](https://www.8ntic.com/publications/qip-thesis): Introduction and link to the original Quantum Intelligence Protocol thesis.
+- [Full QIP thesis](https://www.8ntic.com/publications/qip-thesis): Complete eleven-chapter Quantum Intelligence Protocol thesis, with references, source attribution and interactive memory and collaboration illustrations.
 - [Original QIP thesis](https://rem8ntic.substack.com/p/quantum-intelligence-protocol): Original external publication on Substack.
 - [Publications RSS feed](https://www.8ntic.com/feed.xml)
 

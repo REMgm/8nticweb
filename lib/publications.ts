@@ -8,6 +8,9 @@ export type Publication = {
   source: { title: string; url: string } | null;
   /** An actual publication date, never a retrieval or implementation date. */
   date?: string;
+  updatedAt?: string;
+  image?: string;
+  imageAlt?: string;
   preview: readonly string[];
   /** Optional context shown under the preview on publication cards. */
   previewNote?: string;
@@ -49,9 +52,13 @@ export const publications: readonly Publication[] = [
     slug: "qip-thesis",
     title: "The Quantum Intelligence Protocol",
     description:
-      "Explore the thinking behind QIP: shared context, agent coordination and learning that carries forward. An introduction with a link to the original thesis.",
+      "The full Quantum Intelligence Protocol thesis: seven principles for agent governance, persistent memory and learning across autonomous systems.",
     status: "research",
     type: "research-thesis",
+    date: "2026-04-07",
+    updatedAt: "2026-09-27",
+    image: "/assets/publication-qip.webp",
+    imageAlt: "A continuous amber seam through layered stone, the QIP thesis artwork.",
     author: "Remco Vroom",
     source: {
       title: "Original thesis on Substack",
@@ -59,7 +66,7 @@ export const publications: readonly Publication[] = [
     },
     preview: [
       "What if each interaction could leave the next one better informed?",
-      "QIP explores how people and agents can work with shared context, clear boundaries and lessons that carry forward. Read the introduction here, then continue to Remco’s original thesis.",
+      "Read the complete thesis: eleven chapters on governing autonomous agents, three-tier memory and intelligence that carries forward, with interactive illustrations of the proposed architecture.",
     ],
   },
 ];
