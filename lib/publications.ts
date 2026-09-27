@@ -23,6 +23,7 @@ export const publications: readonly Publication[] = [
     type: "interactive-essay",
     author: "Remco Vroom",
     source: null,
+    date: "2026-09-27",
     preview: [
       "Every AI you used today runs on one idea from 2017.",
       "Not a company. Not a product. A design decision in a paper about translation: stop reading one word at a time, and let every word look at every other word, all at once.",
