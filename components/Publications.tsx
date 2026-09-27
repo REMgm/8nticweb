@@ -3,6 +3,12 @@ import Link from "next/link";
 import { ArrowUpRight, Plus } from "@phosphor-icons/react/dist/ssr";
 import { publications, publicationTypeLabel } from "@/lib/publications";
 
+const coverImages: Record<string, string> = {
+  "the-one-idea": "/assets/publications/the-one-idea/attention.webp",
+  "the-token-gap": "/assets/publication-token-gap.webp",
+  "qip-thesis": "/assets/publication-qip.webp",
+};
+
 type PublicationsProps = { showHeading?: boolean; eagerCovers?: boolean };
 
 export function Publications({ showHeading = true, eagerCovers = false }: PublicationsProps) {
@@ -23,13 +29,18 @@ export function Publications({ showHeading = true, eagerCovers = false }: Public
             <div className="pub-card-art" aria-hidden="true">
               <Image
                 className="pub-cover-image"
-                src={publication.slug === "the-token-gap" ? "/assets/publication-token-gap.webp" : "/assets/publication-qip.webp"}
+                src={coverImages[publication.slug] ?? "/assets/publication-qip.webp"}
                 alt=""
                 fill
                 sizes="(max-width: 660px) calc(100vw - 40px), (max-width: 767px) calc(50vw - 34px), (max-width: 1150px) calc(50vw - 54px), (max-width: 1392px) calc(50vw - 70px), 626px"
                 loading={eagerCovers && index < 2 ? "eager" : "lazy"}
               />
-              {publication.slug === "the-token-gap" ? (
+              {publication.slug === "the-one-idea" ? (
+                <>
+                  <span className="pub-art-index">UNCOVERING HOW AI WORKS · 01</span>
+                  <span className="pub-art-word pub-art-word-one">one idea.</span>
+                </>
+              ) : publication.slug === "the-token-gap" ? (
                 <>
                   <span className="pub-art-index">A DIFFERENCE OF PACE</span>
                   <span className="pub-art-word">tokens</span>
@@ -50,7 +61,7 @@ export function Publications({ showHeading = true, eagerCovers = false }: Public
                 <summary><span className="pub-preview-closed">Read a preview</span><span className="pub-preview-open">Close preview</span><Plus size={18} aria-hidden="true" /></summary>
                 <div className="pub-preview-copy">
                   {publication.preview.map((paragraph) => <p key={paragraph}>{paragraph}</p>)}
-                  {publication.type === "interactive-essay" && <small>Author’s historical illustration. The full essay includes assumptions and source context.</small>}
+                  {publication.previewNote && <small>{publication.previewNote}</small>}
                 </div>
               </details>
               <Link href={`/publications/${publication.slug}`} className="pub-read-link">
