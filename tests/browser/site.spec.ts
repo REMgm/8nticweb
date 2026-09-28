@@ -13,6 +13,7 @@ for(const size of sizes){test(`iPhone viewport ${size.width}: touch-ready naviga
 });}
 
 test('interactive QIP, publications, sound and motion',async({page})=>{
+  test.setTimeout(60000);
   const errors:string[]=[];page.on('pageerror',e=>errors.push(e.message));await page.setViewportSize({width:390,height:844});await page.goto('/');
   const sound=page.getByRole('button',{name:'Turn subtle sound on'});await expect(sound).toHaveAttribute('aria-pressed','false');await sound.click();await expect(page.getByRole('button',{name:'Turn sound off'})).toHaveAttribute('aria-pressed','true');await page.getByRole('button',{name:'Turn sound off'}).click();
   await page.getByRole('button',{name:'Pause ambient motion'}).click();await expect(page.locator('html')).toHaveAttribute('data-motion','off');
@@ -20,7 +21,14 @@ test('interactive QIP, publications, sound and motion',async({page})=>{
   const recorder=page.getByRole('button',{name:/Capture & reflection Recorder/});await recorder.click();await expect(recorder).toHaveAttribute('aria-expanded','true');await expect(page.getByRole('link',{name:/Open Recorder/})).toHaveAttribute('href','https://recorder.8ntic.com');
   const tokenCard=page.locator('.pub-card-the-token-gap');const preview=tokenCard.locator('.pub-preview');await preview.locator('summary').click();await expect(preview).toHaveAttribute('open','');
   await tokenCard.getByRole('link',{name:'Read the full essay',exact:true}).click();await expect(page).toHaveURL(/the-token-gap$/);await expect(page.getByRole('heading',{level:1})).toHaveText('The Token Gap');
-  const result=page.getByRole('button',{name:'Show 22-second result'});await result.click();await expect(page.locator('.token-verdict')).toContainText('88 tokens');
+  await expect(page.locator('html')).toHaveAttribute('data-motion','off');
+  await expect(page.locator('.token-clock .token-sr-only')).toHaveText('0.0 seconds elapsed');
+  await page.getByRole('button',{name:'Play 22-second race',exact:true}).click();
+  await expect(page.getByRole('button',{name:'Pause',exact:true})).toBeVisible();
+  await expect(page.locator('.token-clock .token-sr-only')).not.toHaveText('22.0 seconds elapsed');
+  await expect(page.getByRole('button',{name:'Play again',exact:true})).toBeVisible({timeout:25000});
+  await expect(page.locator('.token-clock .token-sr-only')).toHaveText('22.0 seconds elapsed');
+  await expect(page.locator('.token-verdict')).toContainText('88 tokens');
   expect(errors).toEqual([]);
 });
 

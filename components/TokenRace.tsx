@@ -8,11 +8,9 @@ import { useExperience } from "@/components/Experience";
 export function TokenRace() {
   const [elapsed, setElapsed] = useState(0);
   const [running, setRunning] = useState(false);
-  const [reducedMotion, setReducedMotion] = useState(false);
   const [announcement, setAnnouncement] = useState("");
   const [pauseReason, setPauseReason] = useState<"hidden" | "offscreen" | null>(null);
-  const { motion, cue } = useExperience();
-  const motionOff = reducedMotion || !motion;
+  const { cue } = useExperience();
   const elapsedRef = useRef(0);
   const figureRef = useRef<HTMLElement>(null);
 
@@ -20,26 +18,6 @@ export function TokenRace() {
     elapsedRef.current = seconds;
     setElapsed(seconds);
   }
-
-  useEffect(() => {
-    const media = window.matchMedia("(prefers-reduced-motion: reduce)");
-    const updatePreference = () => {
-      setReducedMotion(media.matches);
-      if (media.matches) {
-        setRunning(false);
-        elapsedRef.current = tokenRaceDuration;
-        setElapsed(tokenRaceDuration);
-        setAnnouncement("Reduced motion is on. The static comparison shows the result after 22 seconds.");
-      }
-    };
-    updatePreference();
-    media.addEventListener("change", updatePreference);
-    return () => media.removeEventListener("change", updatePreference);
-  }, []);
-
-  useEffect(() => {
-    if (!motion) setRunning(false);
-  }, [motion]);
 
   useEffect(() => {
     const pauseWhenHidden = () => {
@@ -63,7 +41,8 @@ export function TokenRace() {
   }, []);
 
   useEffect(() => {
-    if (!running || motionOff) return;
+    // Explicit playback runs in real time, independently of ambient motion.
+    if (!running) return;
     const start = performance.now() - elapsedRef.current * 1000;
     const tick = () => {
       const nextTime = Math.min(tokenRaceDuration, (performance.now() - start) / 1000);
@@ -77,16 +56,10 @@ export function TokenRace() {
     };
     const timer = window.setInterval(tick, 80);
     return () => window.clearInterval(timer);
-  }, [running, motionOff]);
+  }, [running]);
 
   function togglePlayback() {
     setPauseReason(null);
-    if (motionOff) {
-      cue();
-      updateTime(tokenRaceDuration);
-      setAnnouncement("Static result: all model lanes finish within 16.7 seconds. After 22 seconds the human thinking assumption is at 22 percent and speaking at 8.8 percent.");
-      return;
-    }
     if (running) {
       setRunning(false);
       setAnnouncement(`Paused at ${elapsedRef.current.toFixed(1)} seconds.`);
@@ -119,10 +92,10 @@ export function TokenRace() {
       <div className="token-controls">
         <button type="button" className="token-play" onClick={togglePlayback} aria-controls="token-lanes">
           {running ? <Pause size={16} weight="fill" aria-hidden="true" /> : <Play size={16} weight="fill" aria-hidden="true" />}
-          {motionOff ? "Show 22-second result" : running ? "Pause" : elapsed >= tokenRaceDuration ? "Play again" : elapsed > 0 ? "Resume" : "Play the comparison"}
+          {running ? "Pause" : elapsed >= tokenRaceDuration ? "Play again" : elapsed > 0 ? "Resume" : "Play 22-second race"}
         </button>
         <button type="button" className="token-restart" onClick={restart} aria-controls="token-lanes"><ArrowCounterClockwise size={17} aria-hidden="true" />Restart</button>
-        <span className="token-control-note">{motionOff ? "Motion off. A static result." : pauseReason === "hidden" ? "Paused while this tab was hidden. Resume when you’re ready." : pauseReason === "offscreen" ? "Paused while you were reading elsewhere. Resume when you’re ready." : running ? "Playing at real elapsed time. Pause whenever you like." : elapsed > 0 && elapsed < tokenRaceDuration ? "Paused. Your place in the comparison is kept." : "You set the pace. Pause whenever you like."}</span>
+        <span className="token-control-note">{pauseReason === "hidden" ? "Paused while this tab was hidden. Resume when you’re ready." : pauseReason === "offscreen" ? "Paused while you were reading elsewhere. Resume when you’re ready." : running ? "Playing at real elapsed time. Pause whenever you like." : elapsed > 0 && elapsed < tokenRaceDuration ? "Paused. Your place in the comparison is kept." : "Watch the gap open over 22 seconds. Pause whenever you like."}</span>
       </div>
       <div id="token-lanes" className="token-lanes">
         {tokenRaceRunners.map((runner) => {
