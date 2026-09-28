@@ -82,7 +82,7 @@ export function publicationTypeLabel(publication: Publication): string {
 }
 
 export const tokenGapMedia = {
-  film: "/assets/publications/the-token-gap/film.mp4",
+  film: "/assets/publications/the-token-gap/film-clean-titles.mp4",
   poster: "/assets/publications/the-token-gap/film-poster.webp",
   transcript: [
     "A thousand tokens. Play this illustration: the fastest AI takes two seconds while your speaking lane crawls.",
