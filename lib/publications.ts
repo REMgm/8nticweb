@@ -81,6 +81,16 @@ export function publicationTypeLabel(publication: Publication): string {
     : "Research thesis";
 }
 
+export const tokenGapMedia = {
+  film: "/assets/publications/the-token-gap/film.mp4",
+  poster: "/assets/publications/the-token-gap/film-poster.webp",
+  transcript: [
+    "A thousand tokens. Play this illustration: the fastest AI takes two seconds while your speaking lane crawls.",
+    "Human speech takes two hundred and fifty seconds, an enormous gap. Pause, restart and open the numbers behind it.",
+    "The real prize is tokens per insight: explore The Token Gap with AGENTIC. Uncovering how AI works.",
+  ],
+} as const;
+
 /** Historical assumptions preserved from the author's supplied manuscript. */
 export const tokenRaceRunners = [
   { id: "gemini", name: "Gemini 3.5 Flash", rate: 497, kind: "machine" },

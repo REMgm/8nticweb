@@ -6,7 +6,7 @@ import { ArrowLeft, ArrowUpRight } from "@phosphor-icons/react/dist/ssr";
 import { TokenRace } from "@/components/TokenRace";
 import { AttentionExplorer } from "@/components/AttentionExplorer";
 import { QipThesisArticle } from "@/components/QipThesisArticle";
-import { getPublicationBySlug, oneIdeaClosing, oneIdeaMedia, oneIdeaSections, oneIdeaSources, publications, publicationTypeLabel, tokenGapClosing, tokenGapSections, tokenGapSources, type OneIdeaFigure } from "@/lib/publications";
+import { getPublicationBySlug, oneIdeaClosing, oneIdeaMedia, oneIdeaSections, oneIdeaSources, publications, publicationTypeLabel, tokenGapClosing, tokenGapMedia, tokenGapSections, tokenGapSources, type OneIdeaFigure } from "@/lib/publications";
 import { articleJsonLd, breadcrumbJsonLd, jsonLdStringify, publicationMetadata } from "@/lib/seo";
 
 type PublicationPageProps = { params: Promise<{ slug: string }> };
@@ -57,6 +57,17 @@ function GrowthFigure() {
 function TokenGapArticle() {
   return (
     <>
+      <figure className="pub-film" aria-labelledby="token-film-caption">
+        <video controls playsInline preload="none" width={2560} height={1440} poster={tokenGapMedia.poster} aria-label="The Token Gap, a 30-second film" aria-describedby="token-film-caption">
+          <source src={tokenGapMedia.film} type="video/mp4" />
+          Your browser does not play embedded video. <a href={tokenGapMedia.film}>Download the film</a>.
+        </video>
+        <figcaption id="token-film-caption"><span>FILM · 30 SECONDS · SOUND ON</span>The Token Gap, brought to life. English captions included.</figcaption>
+        <details className="pub-film-transcript">
+          <summary>Read the film transcript</summary>
+          {tokenGapMedia.transcript.map((paragraph) => <p key={paragraph}>{paragraph}</p>)}
+        </details>
+      </figure>
       <aside className="pub-editorial-note" aria-label="About the figures in this essay"><span>READING NOTE</span><p>This essay preserves the author’s historical model comparisons and argument. Numerical figures are illustrative inputs from the supplied draft, whose sources were retrieved on 15 September 2026, not current benchmark results. Human token equivalents are not a measured ceiling on thought, and hardware trends are not measurements of intelligence.</p></aside>
       <nav className="pub-article-nav" id="pub-contents" tabIndex={-1} aria-label="In this essay"><span>IN THIS ESSAY</span><a href="#the-speed">The speed</a><a href="#token-race-title">The comparison</a><a href="#tokens-per-insight">Tokens per insight</a><a href="#compounding-curves">Compounding curves</a><a href="#token-sources">Sources</a></nav>
       <div className="pub-prose" id={tokenGapSections[0].id} tabIndex={-1}>{tokenGapSections[0].paragraphs.map((paragraph, index) => <p className={index === 0 ? "pub-lede" : undefined} key={paragraph}>{paragraph}</p>)}</div>

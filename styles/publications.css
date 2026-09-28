@@ -151,6 +151,9 @@
 .pub-film video{display:block;width:100%;height:auto;aspect-ratio:16/9;background:#0c0c0b}
 .pub-film figcaption{display:flex;flex-wrap:wrap;gap:6px 18px;align-items:baseline;padding:14px 18px;font-size:12px;line-height:1.7;color:var(--pub-muted);border-top:1px solid var(--pub-line)}
 .pub-film figcaption span{font-size:9px;letter-spacing:.14em;color:var(--pub-accent)}
+.pub-film-transcript{border-top:1px solid var(--pub-line);padding:0 18px;color:var(--pub-muted);font-size:12px;line-height:1.8}
+.pub-film-transcript summary{padding:13px 0;cursor:pointer;color:var(--pub-accent);min-height:44px}
+.pub-film-transcript p{max-width:75ch;margin:0 0 16px}
 .pub-image-figure{margin:10px 0 60px}
 .pub-image-figure img{display:block;width:100%;height:auto;border-radius:10px;border:1px solid var(--pub-line);background:#191a18}
 .pub-image-figure figcaption{max-width:690px;margin:14px auto 0;font-size:12px;line-height:1.75;color:var(--pub-muted)}
