@@ -81,6 +81,19 @@ export function publicationTypeLabel(publication: Publication): string {
     : "Research thesis";
 }
 
+export const qipThesisMedia = {
+  film: "/assets/publications/qip-thesis/film.mp4",
+  poster: "/assets/publications/qip-thesis/film-poster.webp",
+  transcript: [
+    "Why start from scratch every day? Imagine your AI remembering useful lessons so you spend less energy repeating and more time creating.",
+    "Quantum Intelligence Protocol gives AI agents a shared memory so they can use past lessons and work together with you in charge.",
+    "A shared notebook keeps important decisions available, helping your next project benefit from the valuable experience you have already gained.",
+    "Your agents compare perspectives and challenge assumptions, helping you explore alternative possibilities before bringing the strongest ideas together.",
+    "The real opportunity is continuous improvement as agents complete a task, capture a useful reviewed lesson, and bring that experience into tomorrow.",
+    "Now in beta, QIP explores how shared learning could mean fewer mistakes and better teamwork. 8NTIC, uncovering how AI works.",
+  ],
+} as const;
+
 export const tokenGapMedia = {
   film: "/assets/publications/the-token-gap/film-clean-titles.mp4",
   poster: "/assets/publications/the-token-gap/film-poster.webp",

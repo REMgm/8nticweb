@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { ArrowUpRight } from "@phosphor-icons/react/dist/ssr";
 import source from "@/lib/qip-thesis-content.json";
+import { qipThesisMedia } from "@/lib/publications";
 import { MemoryExplorer, CollaborationExplorer } from "@/components/QipExplorers";
 import "@/styles/qip-thesis.css";
 import "@/styles/qip-explorers.css";
@@ -42,7 +43,17 @@ function ContentBlock({ block }: { block: Block }) {
 export function QipThesisArticle() {
   return <>
     <div className="qip-edition"><span>FULL THESIS · 11 CHAPTERS · ABOUT 55 MIN</span><a href="#qip-abstract">Read the thesis <span aria-hidden="true">↓</span></a><a href={source.source} target="_blank" rel="noopener noreferrer">Original on Substack <ArrowUpRight size={15} aria-hidden="true" /><span className="sr-only">, opens in a new tab</span></a></div>
-    <figure className="qip-thesis-hero"><Image src="/assets/publication-qip.webp" alt="A continuous illuminated seam through tactile stone, the QIP publication artwork." width={1600} height={686} sizes="(max-width: 1100px) 100vw, 1100px" loading="eager" /></figure>
+    <figure className="pub-film qip-thesis-hero" aria-labelledby="qip-film-caption">
+      <video controls playsInline preload="none" width={2560} height={1440} poster={qipThesisMedia.poster} aria-label="Quantum Intelligence Protocol, a 60-second film" aria-describedby="qip-film-caption">
+        <source src={qipThesisMedia.film} type="video/mp4" />
+        Your browser does not play embedded video. <a href={qipThesisMedia.film}>Download the film</a>.
+      </video>
+      <figcaption id="qip-film-caption"><span>FILM · 60 SECONDS · SOUND ON</span>Quantum Intelligence Protocol, explained simply. English subtitles included.</figcaption>
+      <details className="pub-film-transcript">
+        <summary>Read the film transcript</summary>
+        {qipThesisMedia.transcript.map(paragraph => <p key={paragraph}>{paragraph}</p>)}
+      </details>
+    </figure>
     <section className="qip-orientation" id="qip-article-contents" tabIndex={-1} aria-labelledby="qip-orientation-title">
       <p className="pub-eyebrow">THE QUESTION BEHIND THE PROTOCOL</p>
       <h2 id="qip-orientation-title">Better agents are only<br /><em>part of the answer.</em></h2>
